@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[NOME DA LOJA] | Tudo em um só lugar</title>
+  <meta name="description" content="Eletrônicos, casa, games e muito mais com ofertas todos os dias e compra rápida." />
+
+  <!-- Fontes: Poppins (títulos) + Inter (texto). Para trocar, altere aqui e em --font-* -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       1. VARIÁVEIS (cores, fontes, espaçamentos)
+       Troque aqui e a página inteira acompanha.
+       ========================================================= */
+    :root {
+      /* Cores da marca */
+      --brand: #1E55D6;        /* azul royal: barra, hero, botões, ativos */
+      --brand-dark: #163FA6;   /* círculos decorativos, hover */
+      --brand-light: #E8EEFC;  /* fundo de ícones, estados suaves */
+      --accent: #FFD60A;       /* amarelo: preço de destaque, contagem regressiva */
+      --sale: #E5262D;         /* vermelho: selos de desconto e preço promocional */
+      --whatsapp: #25D366;
+
+      /* Neutros */
+      --ink: #111827;          /* texto principal */
+      --muted: #5B6270;        /* texto secundário */
+      --surface: #F1F2F4;      /* blocos cinza claro */
+      --line: #E3E5E9;         /* bordas finas */
+      --white: #FFFFFF;
+
+      /* Tipografia */
+      --font-display: 'Poppins', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+
+      /* Espaçamentos (escala de 4 px) */
+      --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+      --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+      --space-12: 48px; --space-16: 64px;
+
+      /* Formas e sombras */
+      --radius: 8px;
+      --radius-sm: 6px;
+      --radius-lg: 12px;
+      --shadow-soft: 0 1px 2px rgba(17,24,39,.04), 0 8px 24px rgba(17,24,39,.06);
+      --shadow-lift: 0 2px 4px rgba(17,24,39,.05), 0 18px 40px rgba(17,24,39,.12);
+
+      --container: 1320px;
+      --ease: cubic-bezier(.2,.7,.2,1);
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; font-family: var(--font-body); color: var(--ink); background: var(--white); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: 0; padding: 0; touch-action: manipulation; }
+    ul, ol { margin: 0; padding: 0; list-style: none; }
+    h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); line-height: 1.2; }
+    p { margin: 0; }
+    section[id] { scroll-margin-top: 84px; } /* não esconder o título atrás da barra azul fixa */
+    .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--space-6); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .light { font-weight: 300; }
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    /* Foco visível */
+    :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: var(--radius-sm); }
+    .on-blue :focus-visible { outline-color: var(--accent); }
+
+    .skip-link { position: absolute; left: var(--space-4); top: -60px; z-index: 200; background: var(--white); padding: var(--space-2) var(--space-4); border-radius: var(--radius); box-shadow: var(--shadow-lift); }
+    .skip-link:focus { top: var(--space-4); }
+
+    /* Botões */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 40px; padding: 0 var(--space-5); border-radius: var(--radius); font-weight: 600; font-size: 14px; transition: background .2s, color .2s, transform .2s var(--ease); }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--brand); color: var(--white); }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-white { background: var(--white); color: var(--ink); min-height: 48px; padding: 0 var(--space-8); }
+    .btn-white:hover { background: var(--accent); }
+    .btn-sm { min-height: 36px; padding: 0 var(--space-4); font-size: 13px; }
+
+    .badge-sale { display: inline-block; background: var(--sale); color: var(--white); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-sm); }
+    .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+    /* Botão circular de seta (carrosséis) */
+    .arrow { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--white); color: var(--ink); transition: background .2s, color .2s, border-color .2s; }
+    .arrow:hover { background: var(--brand); border-color: var(--brand); color: var(--white); }
+    .arrow:disabled { opacity: .4; cursor: default; background: var(--white); color: var(--ink); border-color: var(--line); }
+
+    /* =========================================================
+       3. BARRA UTILITÁRIA
+       ========================================================= */
+    .utility { border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+    .utility .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 36px; }
+    .utility-links, .utility-right { display: flex; gap: var(--space-5); }
+    .utility a:hover { color: var(--brand); }
+    .utility strong { color: var(--ink); }
+    .utility select { border: 0; background: transparent; font-size: 12px; color: var(--muted); cursor: pointer; }
+
+    /* =========================================================
+       4. CABEÇALHO
+       ========================================================= */
+    .header { background: var(--white); }
+    .header .container { display: flex; align-items: center; gap: var(--space-8); min-height: 80px; }
+    .logo { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-display); font-weight: 700; font-size: 20px; white-space: nowrap; }
+    .logo-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: var(--radius); background: var(--brand); color: var(--white); }
+    .main-nav ul { display: flex; gap: var(--space-6); font-weight: 500; }
+    .main-nav a { padding: var(--space-2) 0; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+    .main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--brand); border-color: var(--brand); }
+    .hot-deals { display: inline-flex; align-items: center; gap: 6px; background: #FDECEC; color: var(--sale); font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: var(--space-6); }
+    .support { display: flex; align-items: center; gap: var(--space-3); }
+    .support-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--brand-light); color: var(--brand); }
+    .support small { display: block; font-size: 12px; color: var(--muted); }
+    .support strong { font-size: 15px; white-space: nowrap; }
+    .header-icons { display: flex; align-items: center; gap: var(--space-2); }
+    .icon-btn { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; transition: background .2s; }
+    .icon-btn:hover { background: var(--surface); }
+    .icon-btn .icon { width: 22px; height: 22px; }
+    .count { position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--brand); color: var(--white); font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+    .cart { display: flex; align-items: center; gap: var(--space-2); }
+    .cart-total { line-height: 1.2; }
+    .cart-total small { display: block; font-size: 12px; color: var(--muted); }
+    .cart-total strong { font-size: 15px; }
+    .mobile-only { display: none; }
+
+    /* Menu do celular (gaveta) */
+    .drawer { position: fixed; inset: 0; z-index: 120; visibility: hidden; }
+    .drawer.open { visibility: visible; }
+    .drawer-backdrop { position: absolute; inset: 0; background: rgba(17,24,39,.5); opacity: 0; transition: opacity .25s; }
+    .drawer.open .drawer-backdrop { opacity: 1; }
+    .drawer-panel { position: absolute; top: 0; bottom: 0; left: 0; width: min(320px, 85vw); background: var(--white); padding: var(--space-5); overflow-y: auto; transform: translateX(-100%); transition: transform .3s var(--ease); }
+    .drawer.open .drawer-panel { transform: none; }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); }
+    .drawer nav a { display: block; padding: var(--space-3) var(--space-2); border-bottom: 1px solid var(--line); font-weight: 500; }
+    .drawer h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: var(--space-6) 0 var(--space-2); }
+
+    /* =========================================================
+       5. BARRA AZUL (departamentos + busca)
+       ========================================================= */
+    .bluebar { background: var(--brand); color: var(--white); position: sticky; top: 0; z-index: 60; }
+    .bluebar .container { display: flex; align-items: center; gap: var(--space-6); min-height: 68px; }
+    .dept { position: relative; }
+    .dept-btn { display: flex; align-items: center; gap: var(--space-3); min-height: 48px; padding: 0 var(--space-5); border-radius: var(--radius); background: var(--brand-dark); font-weight: 600; white-space: nowrap; transition: background .2s; }
+    .dept-btn:hover { background: #12348a; }
+    .dept-btn .chev { transition: transform .2s; }
+    .dept-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+    .dept-menu { position: absolute; top: calc(100% + 8px); left: 0; width: 260px; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lift); padding: var(--space-2); opacity: 0; transform: translateY(-6px); visibility: hidden; transition: opacity .18s, transform .18s var(--ease), visibility .18s; }
+    .dept-menu.open { opacity: 1; transform: none; visibility: visible; }
+    .dept-menu a { display: flex; align-items: center; gap: var(--space-3); padding: 10px var(--space-3); border-radius: var(--radius-sm); font-size: 14px; }
+    .dept-menu a:hover { background: var(--brand-light); color: var(--brand); }
+
+    .search { flex: 1; display: flex; align-items: center; background: var(--white); border-radius: 999px; padding: 4px 4px 4px var(--space-2); color: var(--ink); }
+    .search select { border: 0; background: transparent; padding: 0 var(--space-3); height: 44px; font-size: 14px; color: var(--muted); border-right: 1px solid var(--line); cursor: pointer; max-width: 190px; }
+    .search input { flex: 1; min-width: 0; border: 0; height: 44px; padding: 0 var(--space-4); font-size: 15px; background: transparent; }
+    .search input:focus { outline: none; }
+    .search:focus-within { box-shadow: 0 0 0 3px var(--accent); }
+    .search-btn { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: var(--white); transition: background .2s, transform .2s; }
+    .search-btn:hover { background: #000; transform: scale(1.05); }
+    .bluebar-links { display: flex; gap: var(--space-6); font-size: 14px; font-weight: 500; white-space: nowrap; }
+    .bluebar-links a { display: flex; align-items: center; gap: 6px; opacity: .95; }
+    .bluebar-links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+    /* =========================================================
+       6. HERO (carrossel automático)
+       ========================================================= */
+    .hero { position: relative; background: var(--brand); color: var(--white); overflow: hidden; }
+    .hero-circle { position: absolute; border-radius: 50%; background: var(--brand-dark); pointer-events: none; }
+    .hero-track { position: relative; min-height: 520px; }
+    .slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .6s var(--ease), visibility .6s; }
+    .slide.active { opacity: 1; visibility: visible; position: relative; }
+    .slide .container { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: var(--space-8); min-height: 520px; padding-top: var(--space-12); padding-bottom: 120px; }
+    .slide-text { position: relative; z-index: 2; padding-left: 56px; }
+    .slide .eyebrow { color: rgba(255,255,255,.85); }
+    .slide h1, .slide h2 { font-size: clamp(32px, 4.2vw, 58px); font-weight: 700; margin: var(--space-3) 0 var(--space-4); letter-spacing: -.01em; }
+    .from-price { font-size: 18px; margin-bottom: var(--space-8); }
+    .from-price strong { color: var(--accent); font-size: 26px; font-family: var(--font-display); }
+    .slide-media { position: relative; height: 400px; }
+    .slide-media img { position: absolute; border-radius: var(--radius-lg); box-shadow: var(--shadow-lift); }
+    .slide-media .m1 { width: 62%; left: 6%; top: 0; z-index: 2; }
+    .slide-media .m2 { width: 46%; right: -8%; top: 18%; z-index: 1; } /* levemente cortada pela borda */
+    .slide-media .m3 { width: 34%; left: 40%; bottom: -14%; z-index: 3; }
+    .slide.active .slide-text > * { animation: rise .6s var(--ease) both; }
+    .slide.active .slide-text > *:nth-child(2) { animation-delay: .06s; }
+    .slide.active .slide-text > *:nth-child(3) { animation-delay: .12s; }
+    .slide.active .slide-text > *:nth-child(4) { animation-delay: .18s; }
+    .slide.active .slide-media img { animation: rise .7s var(--ease) both; }
+    .slide.active .slide-media .m2 { animation-delay: .1s; }
+    .slide.active .slide-media .m3 { animation-delay: .2s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+    .hero-arrow { position: absolute; top: 42%; z-index: 5; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--white); color: var(--ink); box-shadow: var(--shadow-soft); transition: transform .2s; }
+    .hero-arrow:hover { transform: scale(1.08); }
+    .hero-arrow.prev { left: var(--space-5); }
+    .hero-arrow.next { right: var(--space-5); }
+    .dots { position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 5; display: flex; gap: var(--space-2); }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: rgba(255,255,255,.5); transition: width .3s var(--ease), background .3s; }
+    .dot[aria-current="true"] { width: 28px; background: var(--white); }
+    /* área de toque maior que o ponto visível */
+    .dot { position: relative; }
+    .dot::after { content: ""; position: absolute; inset: -12px -6px; }
+
+    /* =========================================================
+       7. CATEGORIAS (sobrepostas ao hero)
+       ========================================================= */
+    .categories { position: relative; z-index: 6; margin-top: -72px; }
+    .cat-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-lift); padding: var(--space-6) var(--space-4); display: flex; align-items: center; gap: var(--space-2); }
+    .cat-list { flex: 1; display: flex; gap: var(--space-2); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; }
+    .cat-list::-webkit-scrollbar { display: none; }
+    .cat-list li { flex: 1 0 120px; scroll-snap-align: start; }
+    .cat { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-2); text-align: center; font-size: 14px; font-weight: 500; }
+    .cat-icon { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: var(--surface); color: var(--ink); transition: background .2s, color .2s, transform .2s var(--ease); }
+    .cat-icon .icon { width: 30px; height: 30px; stroke-width: 1.6; }
+    .cat:hover .cat-icon { transform: translateY(-3px); color: var(--brand); }
+    .cat[aria-current="true"] .cat-icon { background: var(--brand); color: var(--white); }
+    .cat[aria-current="true"] { color: var(--brand); font-weight: 600; }
+
+    /* =========================================================
+       8. SEÇÕES / TÍTULOS
+       ========================================================= */
+    .section { padding: var(--space-12) 0 0; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
+    .section-title { font-size: 26px; font-weight: 700; }
+    .arrows { display: flex; gap: var(--space-2); }
+
+    /* Cards promocionais (3 lado a lado) */
+    .promo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+    .promo { display: flex; align-items: center; gap: var(--space-4); background: var(--surface); border-radius: var(--radius); padding: var(--space-6); min-height: 200px; overflow: hidden; transition: box-shadow .25s, transform .25s var(--ease); }
+    .promo:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+    .promo-text { flex: 1; }
+    .promo h3 { font-size: 21px; font-weight: 700; margin: 6px 0; }
+    .promo p { color: var(--muted); font-size: 14px; margin-bottom: var(--space-4); }
+    .promo img { width: 42%; border-radius: var(--radius); }
+
+    /* =========================================================
+       9. CARD DE PRODUTO
+       ========================================================= */
+    .product { position: relative; display: flex; flex-direction: column; background: var(--white); border-radius: var(--radius); padding: var(--space-4); transition: box-shadow .25s, transform .25s var(--ease); }
+    .product:hover, .product:focus-within { box-shadow: var(--shadow-lift); transform: translateY(-4px); z-index: 2; }
+    .product .cat-name { font-size: 12px; color: var(--muted); }
+    .product h3 { font-family: var(--font-body); font-size: 14px; font-weight: 600; margin: 4px 0 var(--space-3); line-height: 1.4; min-height: 2.8em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product h3 a:hover { color: var(--brand); }
+    .product .badge-sale { position: absolute; top: var(--space-4); right: var(--space-4); z-index: 1; }
+    .product-img { position: relative; aspect-ratio: 1; margin-bottom: var(--space-3); }
+    .product-img img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+    .quick { position: absolute; left: 50%; bottom: var(--space-2); display: flex; gap: 6px; transform: translate(-50%, 8px); opacity: 0; transition: opacity .2s, transform .25s var(--ease); }
+    .product:hover .quick, .product:focus-within .quick { opacity: 1; transform: translate(-50%, 0); }
+    .quick button { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-soft); transition: background .2s, color .2s; }
+    .quick button:hover { background: var(--brand); color: var(--white); border-color: var(--brand); }
+    .quick button[aria-pressed="true"] { color: var(--sale); }
+    .quick .icon { width: 18px; height: 18px; }
+    .price { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+    .price .now { font-size: 18px; font-weight: 700; color: var(--sale); }
+    .price .old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+    .rating { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .stars { display: flex; color: #F5B400; }
+    .stars svg { width: 14px; height: 14px; fill: currentColor; }
+    .stars .off { color: #D5D8DE; }
+    .progress { height: 6px; background: var(--surface); border-radius: 999px; margin-top: var(--space-3); overflow: hidden; }
+    .progress span { display: block; height: 100%; background: var(--brand); border-radius: inherit; }
+    .sold { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .sold strong { color: var(--ink); }
+
+    /* Ofertas do dia */
+    .countdown { display: flex; align-items: center; gap: var(--space-2); }
+    .countdown-label { font-size: 14px; color: var(--muted); margin-right: var(--space-1); }
+    .time-box { display: grid; place-items: center; min-width: 48px; height: 44px; padding: 0 6px; background: var(--accent); border-radius: var(--radius-sm); font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); line-height: 1; }
+    .time-box small { display: block; font-size: 10px; font-weight: 500; font-family: var(--font-body); margin-top: 2px; }
+    .deals-frame { border: 1.5px solid var(--brand); border-radius: var(--radius); padding: var(--space-2); }
+    .carousel { display: flex; gap: var(--space-2); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; padding: var(--space-2); margin: calc(var(--space-2) * -1); }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel > li { flex: 0 0 calc((100% - 5 * var(--space-2)) / 6); scroll-snap-align: start; display: flex; }
+    .carousel > li > .product { flex: 1; }
+    .carousel > li + li .product::before { content: ""; position: absolute; left: -5px; top: 10%; bottom: 10%; border-left: 1px solid var(--line); }
+
+    /* Banners (1 largo + 2 menores) */
+    .banner-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-5); }
+    .banner { position: relative; display: flex; align-items: center; gap: var(--space-4); background: var(--surface); border-radius: var(--radius); padding: var(--space-8); min-height: 260px; overflow: hidden; transition: box-shadow .25s; }
+    .banner:hover { box-shadow: var(--shadow-soft); }
+    .banner h3 { font-size: 24px; font-weight: 700; margin: 6px 0 var(--space-2); }
+    .banner .big-price { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--brand); margin-bottom: var(--space-4); }
+    .banner .big-price.red { color: var(--sale); }
+    .banner img { width: 46%; border-radius: var(--radius); }
+    .banner.tall { flex-direction: column; align-items: flex-start; }
+    .banner.tall img { width: 64%; align-self: flex-end; margin-top: auto; }
+
+    /* Em alta esta semana */
+    .tabs { display: flex; gap: var(--space-2); overflow-x: auto; scrollbar-width: none; }
+    .tab { min-height: 40px; padding: 0 var(--space-5); border-radius: 999px; border: 1px solid var(--line); font-size: 14px; font-weight: 500; white-space: nowrap; transition: background .2s, color .2s, border-color .2s; }
+    .tab:hover { border-color: var(--brand); color: var(--brand); }
+    .tab[aria-selected="true"] { background: var(--brand); color: var(--white); border-color: var(--brand); }
+    .trend-grid { display: grid; grid-template-columns: 1fr 1fr 2fr 1fr 1fr; grid-template-rows: auto auto; gap: var(--space-4); }
+    .trend-grid .product { border: 1px solid var(--line); }
+    .trend-grid .featured { grid-column: 3; grid-row: 1 / span 2; border: 1.5px solid var(--brand); padding: var(--space-6); }
+    .trend-grid .slot-l { grid-column: span 1; }
+    .featured .product-img { aspect-ratio: auto; flex: 1; min-height: 280px; }
+    .featured h3 { font-size: 20px; font-family: var(--font-display); min-height: 0; }
+    .featured .price .now { font-size: 26px; }
+    .swatches { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+    .swatch { width: 56px; height: 56px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); overflow: hidden; padding: 2px; transition: border-color .2s; }
+    .swatch[aria-pressed="true"], .swatch:hover { border-color: var(--brand); }
+    .swatch img { border-radius: 4px; }
+    .tab-panel.fading { opacity: 0; }
+    .tab-panel { transition: opacity .2s; }
+
+    /* Banner largo 30% OFF */
+    .wide-banner { display: grid; grid-template-columns: 1fr 1.3fr; align-items: center; gap: var(--space-8); background: var(--surface); border-radius: var(--radius); padding: var(--space-10) var(--space-12); overflow: hidden; }
+    .wide-banner h2 { font-size: clamp(30px, 3.6vw, 48px); font-weight: 700; }
+    .wide-banner h2 .red { color: var(--sale); }
+    .wide-banner p { color: var(--muted); margin: var(--space-3) 0 var(--space-6); }
+    .wide-banner small { display: block; color: var(--muted); font-size: 12px; margin-top: var(--space-4); }
+    .wide-products { display: flex; align-items: flex-end; justify-content: flex-end; gap: var(--space-3); }
+    .wide-products img { border-radius: var(--radius); box-shadow: var(--shadow-soft); width: 26%; }
+    .wide-products img:nth-child(2) { width: 34%; }
+
+    /* =========================================================
+       10. RODAPÉ
+       ========================================================= */
+    .footer { margin-top: var(--space-16); background: var(--surface); padding-top: var(--space-12); font-size: 14px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr) 1.3fr; gap: var(--space-8); padding-bottom: var(--space-10); }
+    .footer h2 { font-size: 15px; font-weight: 600; margin-bottom: var(--space-4); }
+    .footer li + li { margin-top: 10px; }
+    .footer a { color: var(--muted); transition: color .2s; }
+    .footer a:hover { color: var(--brand); }
+    .footer .about p { color: var(--muted); margin: var(--space-4) 0; max-width: 280px; }
+    .pay { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pay span { font-size: 12px; font-weight: 600; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 6px 10px; }
+    .socials { display: flex; gap: var(--space-2); margin-top: var(--space-5); }
+    .socials a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--white); border: 1px solid var(--line); color: var(--ink); }
+    .socials a:hover { background: var(--brand); color: var(--white); border-color: var(--brand); }
+    .copyright { border-top: 1px solid var(--line); padding: var(--space-5) 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+    /* WhatsApp flutuante */
+    .wa-float { position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: 90; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; background: var(--whatsapp); color: var(--white); box-shadow: var(--shadow-lift); transition: transform .2s var(--ease); }
+    .wa-float:hover { transform: scale(1.07); }
+    .wa-float .icon { width: 28px; height: 28px; stroke-width: 2; }
+
+    /* Aviso rápido (toast) */
+    .toast { position: fixed; left: 50%; bottom: var(--space-6); z-index: 130; transform: translate(-50%, 20px); opacity: 0; background: var(--ink); color: var(--white); padding: var(--space-3) var(--space-5); border-radius: var(--radius); font-size: 14px; box-shadow: var(--shadow-lift); transition: opacity .2s, transform .25s var(--ease); pointer-events: none; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* =========================================================
+       11. RESPONSIVO
+       ========================================================= */
+    @media (max-width: 1200px) {
+      .support { display: none; }
+      .main-nav ul { gap: var(--space-5); }
+      .carousel > li { flex-basis: calc((100% - 3 * var(--space-2)) / 4); }
+      .trend-grid { grid-template-columns: repeat(4, 1fr); }
+      .trend-grid .featured { grid-column: 1 / span 2; grid-row: 1 / span 2; }
+      .footer-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .main-nav, .hot-deals, .bluebar-links, .cart-total, .utility-links, .utility-right { display: none; }
+      .utility .container { justify-content: center; }
+      .mobile-only { display: grid; }
+      .header .container { min-height: 64px; gap: var(--space-3); }
+      .header-right { gap: var(--space-1); }
+      .icon-btn.hide-sm { display: none; }
+
+      /* Busca recolhível */
+      .bluebar .container { flex-wrap: wrap; gap: var(--space-3); min-height: 60px; padding-top: var(--space-2); padding-bottom: var(--space-2); }
+      .dept { flex: 1; }
+      .dept-btn { width: 100%; min-height: 44px; }
+      .search { display: none; order: 3; flex-basis: 100%; }
+      .bluebar.search-open .search { display: flex; }
+      .search select { display: none; }
+
+      .slide .container { grid-template-columns: 1fr; text-align: left; padding-top: var(--space-8); padding-bottom: 130px; gap: var(--space-6); min-height: 0; }
+      .slide-text { padding-left: 0; }
+      .slide-media { height: 260px; max-width: 460px; width: 100%; margin: 0 auto; }
+      .hero-track { min-height: 0; }
+      .hero-arrow { display: none; }
+
+      .promo-row { grid-template-columns: 1fr; }
+      .banner-row { grid-template-columns: 1fr 1fr; }
+      .banner-row .banner:first-child { grid-column: 1 / -1; }
+      .wide-banner { grid-template-columns: 1fr; padding: var(--space-8); }
+      .wide-products { justify-content: center; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .container { padding: 0 var(--space-4); }
+      .logo { font-size: 17px; }
+      .logo-mark { width: 34px; height: 34px; }
+      .slide h1, .slide h2 { font-size: 30px; }
+      .slide-media { height: 210px; }
+      .from-price { margin-bottom: var(--space-5); }
+      .dots { bottom: 92px; }
+      .categories { margin-top: -64px; }
+      .cat-card { padding: var(--space-4) var(--space-2); }
+      .cat-card > .arrow { display: none; }
+      .cat-list li { flex: 0 0 92px; }
+      .cat-icon { width: 60px; height: 60px; }
+      .cat-icon .icon { width: 24px; height: 24px; }
+      .cat { font-size: 12px; }
+      .section { padding-top: var(--space-10); }
+      .section-title { font-size: 21px; }
+      .section-head .arrows { display: none; }
+      .countdown { order: 3; width: 100%; }
+      .carousel > li { flex-basis: calc((100% - var(--space-2)) / 2); }
+      .promo { min-height: 160px; padding: var(--space-5); }
+      .banner-row { grid-template-columns: 1fr; }
+      .banner { padding: var(--space-6); min-height: 200px; }
+      .trend-grid { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+      .trend-grid .featured { grid-column: 1 / -1; grid-row: auto; }
+      .featured .product-img { min-height: 220px; }
+      .product { padding: var(--space-3); }
+      .product .badge-sale { top: var(--space-3); right: var(--space-3); }
+      .wide-banner { padding: var(--space-6); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+      .footer .about { grid-column: 1 / -1; }
+    }
+
+    /* Telas de toque: botões rápidos sempre visíveis (não dependem de hover) */
+    @media (hover: none) {
+      .quick { opacity: 1; transform: translate(-50%, 0); }
+      .product:hover { transform: none; box-shadow: none; }
+    }
+
+    /* Menos movimento */
+    @media (prefers-reduced-motion: reduce) {
+      html, .carousel, .cat-list { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- =========================================================
+       SPRITE DE ÍCONES (SVG). Use com <svg class="icon"><use href="#i-nome"/></svg>
+       ========================================================= -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2 2h3l2.7 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 7H6"/></symbol>
+    <symbol id="i-compare" viewBox="0 0 24 24"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></symbol>
+    <symbol id="i-fire" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.3.3 1.6 1.3 2.8 2.5 2.8"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.6a1 1 0 0 0-.2-.6l-3.5-4.4a1 1 0 0 0-.8-.4H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="m17 2-5 5-5-5"/></symbol>
+    <symbol id="i-watch" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 10v2l1 1M16.1 7.7l-.8-4.1a2 2 0 0 0-2-1.6h-2.7a2 2 0 0 0-2 1.6l-.8 4.1M7.9 16.4l.8 4a2 2 0 0 0 2 1.6h2.7a2 2 0 0 0 2-1.6l.8-4"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/></symbol>
+    <symbol id="i-mobile" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5M9 8V2M15 8V2M18 8v5a6 6 0 0 1-12 0V8z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+    <symbol id="i-yt" viewBox="0 0 24 24"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  </svg>
+
+  <!-- =========================================================
+       BARRA UTILITÁRIA
+       ========================================================= -->
+  <div class="utility">
+    <div class="container">
+      <div class="utility-links">
+        <a href="#">Encontre uma loja</a>
+        <a href="#">Rastrear pedido</a>
+      </div>
+      <p>Frete grátis acima de <strong>R$ 199</strong></p>
+      <div class="utility-right">
+        <label class="sr-only" for="lang">Idioma</label>
+        <select id="lang"><option>Português</option><option>English</option><option>Español</option></select>
+        <label class="sr-only" for="currency">Moeda</label>
+        <select id="currency"><option>BRL (R$)</option><option>USD (US$)</option></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       CABEÇALHO PRINCIPAL
+       ========================================================= -->
+  <header class="header">
+    <div class="container">
+      <button class="icon-btn mobile-only" id="menuBtn" aria-label="Abrir menu" aria-controls="drawer" aria-expanded="false">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+
+      <!-- LOGO: troque por <img src="logo.svg" alt="[NOME DA LOJA]" height="38"> -->
+      <a href="#" class="logo" aria-label="[NOME DA LOJA], página inicial">
+        <span class="logo-mark"><svg class="icon"><use href="#i-bag"/></svg></span>
+        [NOME DA LOJA]
+      </a>
+
+      <nav class="main-nav" aria-label="Principal">
+        <ul>
+          <li><a href="#" aria-current="page">Início</a></li>
+          <li><a href="#">Loja</a></li>
+          <li><a href="#">Páginas</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </nav>
+
+      <a href="#ofertas" class="hot-deals"><svg class="icon" style="width:16px;height:16px"><use href="#i-fire"/></svg>Ofertas imperdíveis</a>
+
+      <div class="header-right">
+        <a class="support" data-whatsapp href="#" target="_blank" rel="noopener">
+          <span class="support-icon"><svg class="icon"><use href="#i-phone"/></svg></span>
+          <span><small>Atendimento pelo WhatsApp</small><strong>(00) 00000-0000</strong></span>
+        </a>
+        <div class="header-icons">
+          <button class="icon-btn mobile-only" id="searchToggle" aria-label="Mostrar busca" aria-controls="searchForm" aria-expanded="false">
+            <svg class="icon"><use href="#i-search"/></svg>
+          </button>
+          <a href="#" class="icon-btn hide-sm" aria-label="Favoritos (2 itens)" id="favLink">
+            <svg class="icon"><use href="#i-heart"/></svg><span class="count" id="favCount">2</span>
+          </a>
+          <a href="#" class="icon-btn hide-sm" aria-label="Minha conta"><svg class="icon"><use href="#i-user"/></svg></a>
+          <a href="#" class="cart" aria-label="Carrinho" id="cartLink">
+            <span class="icon-btn"><svg class="icon"><use href="#i-cart"/></svg><span class="count" id="cartCount">0</span></span>
+            <span class="cart-total"><small>Seu carrinho</small><strong id="cartTotal" class="tabular">R$ 0,00</strong></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Gaveta do menu (celular) -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="drawer-head">
+        <span class="logo"><span class="logo-mark"><svg class="icon"><use href="#i-bag"/></svg></span>[NOME DA LOJA]</span>
+        <button class="icon-btn" data-close-drawer aria-label="Fechar menu"><svg class="icon"><use href="#i-x"/></svg></button>
+      </div>
+      <nav aria-label="Menu do celular">
+        <a href="#">Início</a><a href="#">Loja</a><a href="#">Páginas</a><a href="#">Blog</a><a href="#">Contato</a>
+        <a href="#ofertas" style="color:var(--sale);font-weight:700">Ofertas imperdíveis</a>
+      </nav>
+      <h2>Minha conta</h2>
+      <nav aria-label="Conta">
+        <a href="#">Favoritos</a><a href="#">Vistos recentemente</a><a href="#">Status do pedido</a><a href="#">Rastrear pedido</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       BARRA AZUL: departamentos + busca
+       ========================================================= -->
+  <div class="bluebar on-blue" id="bluebar">
+    <div class="container">
+      <div class="dept">
+        <button class="dept-btn" id="deptBtn" aria-expanded="false" aria-controls="deptMenu">
+          <svg class="icon"><use href="#i-menu"/></svg>
+          Compre por departamento
+          <svg class="icon chev" style="width:16px;height:16px;margin-left:auto"><use href="#i-chev-d"/></svg>
+        </button>
+        <div class="dept-menu" id="deptMenu">
+          <ul id="deptList"><!-- preenchido pelo JS a partir de CATEGORIES --></ul>
+        </div>
+      </div>
+
+      <form class="search" id="searchForm" role="search" action="#" onsubmit="event.preventDefault()">
+        <label class="sr-only" for="searchCat">Categoria</label>
+        <select id="searchCat"><option>Todas as categorias</option></select>
+        <label class="sr-only" for="q">Buscar produtos</label>
+        <input id="q" type="search" placeholder="O que você está procurando?" autocomplete="off" />
+        <button class="search-btn" type="submit" aria-label="Buscar"><svg class="icon"><use href="#i-search"/></svg></button>
+      </form>
+
+      <div class="bluebar-links">
+        <a href="#"><svg class="icon" style="width:18px;height:18px"><use href="#i-clock"/></svg>Vistos recentemente</a>
+        <a href="#"><svg class="icon" style="width:18px;height:18px"><use href="#i-truck"/></svg>Status do pedido</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="conteudo">
+    <!-- =========================================================
+         HERO (carrossel automático)
+         TROQUE as imagens pelos produtos reais (PNG com fundo transparente fica melhor).
+         ========================================================= -->
+    <section class="hero on-blue" aria-roledescription="carrossel" aria-label="Destaques">
+      <span class="hero-circle" style="width:520px;height:520px;right:-120px;top:-160px" aria-hidden="true"></span>
+      <span class="hero-circle" style="width:300px;height:300px;right:32%;bottom:-170px;opacity:.7" aria-hidden="true"></span>
+      <span class="hero-circle" style="width:200px;height:200px;left:-80px;top:40px;opacity:.5" aria-hidden="true"></span>
+
+      <div class="hero-track" id="heroTrack" aria-live="polite">
+        <!-- Slide 1 -->
+        <div class="slide active" role="group" aria-roledescription="slide" aria-label="1 de 3">
+          <div class="container">
+            <div class="slide-text">
+              <p class="eyebrow">Semana gamer</p>
+              <h1>Leve o mundo <span class="light">dos games para a sua casa</span></h1>
+              <p class="from-price">A partir de <strong>R$ 1.899</strong></p>
+              <a href="#" class="btn btn-white">Comprar agora</a>
+            </div>
+            <div class="slide-media">
+              <img class="m1" src="https://placehold.co/560x420/ffffff/1E55D6/png?text=Console&font=poppins" alt="Console de videogame com controle" width="560" height="420" />
+              <img class="m2" src="https://placehold.co/400x400/F1F2F4/111827/png?text=Headset&font=poppins" alt="Headset gamer" width="400" height="400" />
+              <img class="m3" src="https://placehold.co/300x300/FFD60A/111827/png?text=Controle&font=poppins" alt="Controle sem fio" width="300" height="300" />
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide" role="group" aria-roledescription="slide" aria-label="2 de 3">
+          <div class="container">
+            <div class="slide-text">
+              <p class="eyebrow">Lançamentos</p>
+              <h2>Smartphones <span class="light">para todos os momentos</span></h2>
+              <p class="from-price">A partir de <strong>R$ 999</strong></p>
+              <a href="#" class="btn btn-white">Comprar agora</a>
+            </div>
+            <div class="slide-media">
+              <img class="m1" src="https://placehold.co/560x420/ffffff/1E55D6/png?text=Smartphone&font=poppins" alt="Smartphone de tela grande" width="560" height="420" loading="lazy" />
+              <img class="m2" src="https://placehold.co/400x400/F1F2F4/111827/png?text=Smartwatch&font=poppins" alt="Smartwatch" width="400" height="400" loading="lazy" />
+              <img class="m3" src="https://placehold.co/300x300/FFD60A/111827/png?text=Fone&font=poppins" alt="Fone sem fio" width="300" height="300" loading="lazy" />
+            </div>
+          </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="slide" role="group" aria-roledescription="slide" aria-label="3 de 3">
+          <div class="container">
+            <div class="slide-text">
+              <p class="eyebrow">Casa conectada</p>
+              <h2>Sua casa <span class="light">mais prática e inteligente</span></h2>
+              <p class="from-price">A partir de <strong>R$ 149</strong></p>
+              <a href="#" class="btn btn-white">Comprar agora</a>
+            </div>
+            <div class="slide-media">
+              <img class="m1" src="https://placehold.co/560x420/ffffff/1E55D6/png?text=Smart+TV&font=poppins" alt="Smart TV" width="560" height="420" loading="lazy" />
+              <img class="m2" src="https://placehold.co/400x400/F1F2F4/111827/png?text=Caixa+de+som&font=poppins" alt="Caixa de som inteligente" width="400" height="400" loading="lazy" />
+              <img class="m3" src="https://placehold.co/300x300/FFD60A/111827/png?text=L%C3%A2mpada&font=poppins" alt="Lâmpada inteligente" width="300" height="300" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="hero-arrow prev" id="heroPrev" aria-label="Destaque anterior"><svg class="icon"><use href="#i-chev-l"/></svg></button>
+      <button class="hero-arrow next" id="heroNext" aria-label="Próximo destaque"><svg class="icon"><use href="#i-chev-r"/></svg></button>
+      <div class="dots" id="heroDots"><!-- pontos criados pelo JS --></div>
+    </section>
+
+    <!-- =========================================================
+         CATEGORIAS (carrossel sobre o hero)
+         ========================================================= -->
+    <section class="categories" aria-label="Categorias">
+      <div class="container">
+        <div class="cat-card">
+          <button class="arrow" data-scroll="#catList" data-dir="-1" aria-label="Categorias anteriores"><svg class="icon"><use href="#i-chev-l"/></svg></button>
+          <ul class="cat-list" id="catList"><!-- preenchido pelo JS --></ul>
+          <button class="arrow" data-scroll="#catList" data-dir="1" aria-label="Próximas categorias"><svg class="icon"><use href="#i-chev-r"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3 CARDS PROMOCIONAIS
+         ========================================================= -->
+    <section class="section" aria-label="Promoções">
+      <div class="container promo-row">
+        <a href="#" class="promo">
+          <div class="promo-text">
+            <p class="eyebrow">Novidade</p>
+            <h3>Notebooks <span class="light">ultrafinos</span></h3>
+            <p>Até 10x sem juros</p>
+            <span class="btn btn-primary btn-sm">Comprar</span>
+          </div>
+          <img src="https://placehold.co/300x300/ffffff/1E55D6/png?text=Notebook&font=poppins" alt="Notebook ultrafino" width="300" height="300" loading="lazy" />
+        </a>
+        <a href="#" class="promo">
+          <div class="promo-text">
+            <p class="eyebrow">Mais vendidos</p>
+            <h3>Fones <span class="light">sem fio</span></h3>
+            <p>Com cancelamento de ruído</p>
+            <span class="btn btn-primary btn-sm">Comprar</span>
+          </div>
+          <img src="https://placehold.co/300x300/ffffff/1E55D6/png?text=Fone&font=poppins" alt="Fone de ouvido sem fio" width="300" height="300" loading="lazy" />
+        </a>
+        <a href="#" class="promo">
+          <div class="promo-text">
+            <p class="eyebrow">Para a casa</p>
+            <h3>Cozinha <span class="light">prática</span></h3>
+            <p>Air fryers a partir de R$ 299</p>
+            <span class="btn btn-primary btn-sm">Comprar</span>
+          </div>
+          <img src="https://placehold.co/300x300/ffffff/1E55D6/png?text=Air+fryer&font=poppins" alt="Fritadeira elétrica air fryer" width="300" height="300" loading="lazy" />
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         OFERTAS DO DIA (contagem regressiva + carrossel)
+         ========================================================= -->
+    <section class="section" id="ofertas" aria-labelledby="t-ofertas">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title" id="t-ofertas">Ofertas <span class="light">do dia</span></h2>
+          <div class="countdown" aria-label="Tempo restante para as ofertas do dia">
+            <span class="countdown-label">Termina em:</span>
+            <span class="time-box tabular"><span><span id="cdH">00</span><small>horas</small></span></span>
+            <span class="time-box tabular"><span><span id="cdM">00</span><small>min</small></span></span>
+            <span class="time-box tabular"><span><span id="cdS">00</span><small>seg</small></span></span>
+          </div>
+          <div class="arrows">
+            <button class="arrow" data-scroll="#dealsList" data-dir="-1" aria-label="Ofertas anteriores"><svg class="icon"><use href="#i-chev-l"/></svg></button>
+            <button class="arrow" data-scroll="#dealsList" data-dir="1" aria-label="Próximas ofertas"><svg class="icon"><use href="#i-chev-r"/></svg></button>
+          </div>
+        </div>
+        <div class="deals-frame">
+          <ul class="carousel" id="dealsList"><!-- preenchido pelo JS a partir de DEALS --></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3 BANNERS (1 largo + 2 menores)
+         ========================================================= -->
+    <section class="section" aria-label="Destaques da semana">
+      <div class="container banner-row">
+        <a href="#" class="banner">
+          <div>
+            <p class="eyebrow">Smart TVs</p>
+            <h3>Cinema <span class="light">na sua sala</span></h3>
+            <p class="big-price">A partir de R$ 1.599</p>
+            <span class="btn btn-primary">Comprar</span>
+          </div>
+          <img src="https://placehold.co/420x320/ffffff/1E55D6/png?text=Smart+TV+55%22&font=poppins" alt="Smart TV de 55 polegadas" width="420" height="320" loading="lazy" />
+        </a>
+        <a href="#" class="banner tall">
+          <div>
+            <p class="eyebrow">Smartwatches</p>
+            <h3>Até <span style="color:var(--sale)">25% OFF</span></h3>
+            <span class="btn btn-primary btn-sm">Comprar</span>
+          </div>
+          <img src="https://placehold.co/260x260/ffffff/1E55D6/png?text=Smartwatch&font=poppins" alt="Smartwatch" width="260" height="260" loading="lazy" />
+        </a>
+        <a href="#" class="banner tall">
+          <div>
+            <p class="eyebrow">Câmeras</p>
+            <h3>Registre <span class="light">tudo</span></h3>
+            <p class="big-price">R$ 2.349</p>
+          </div>
+          <img src="https://placehold.co/260x260/ffffff/1E55D6/png?text=C%C3%A2mera&font=poppins" alt="Câmera digital" width="260" height="260" loading="lazy" />
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         EM ALTA ESTA SEMANA (abas + grade)
+         ========================================================= -->
+    <section class="section" aria-labelledby="t-alta">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title" id="t-alta">Em alta <span class="light">esta semana</span></h2>
+          <div class="tabs" role="tablist" aria-label="Filtrar produtos em alta" id="tabs">
+            <button class="tab" role="tab" aria-selected="true" aria-controls="trendPanel" data-tab="best">Mais vendidos</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="trendPanel" data-tab="promo">Promoções</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="trendPanel" data-tab="featured">Destaques</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="trendPanel" data-tab="new">Lançamentos</button>
+            <a class="tab" href="#" style="display:inline-flex;align-items:center">Ver tudo</a>
+          </div>
+        </div>
+        <div class="tab-panel" id="trendPanel" role="tabpanel" aria-labelledby="t-alta">
+          <div class="trend-grid" id="trendGrid"><!-- preenchido pelo JS --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         BANNER LARGO 30% OFF
+         ========================================================= -->
+    <section class="section" aria-label="Desconto imediato">
+      <div class="container">
+        <div class="wide-banner">
+          <div>
+            <p class="eyebrow">Só esta semana</p>
+            <h2>Até <span class="red">30% OFF</span><br /><span class="light">Desconto imediato</span></h2>
+            <p>Em eletrônicos, casa e acessórios selecionados.</p>
+            <a href="#" class="btn btn-primary" style="min-height:48px;padding:0 32px">Aproveitar agora</a>
+            <small>*Desconto válido no Pix ou em até 10x sem juros no cartão. Consulte as condições.</small>
+          </div>
+          <div class="wide-products">
+            <img src="https://placehold.co/260x320/ffffff/1E55D6/png?text=Tablet&font=poppins" alt="Tablet" width="260" height="320" loading="lazy" />
+            <img src="https://placehold.co/340x400/ffffff/1E55D6/png?text=Notebook&font=poppins" alt="Notebook" width="340" height="400" loading="lazy" />
+            <img src="https://placehold.co/260x320/ffffff/1E55D6/png?text=Caixa+de+som&font=poppins" alt="Caixa de som portátil" width="260" height="320" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       RODAPÉ
+       ========================================================= -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="about">
+        <span class="logo"><span class="logo-mark"><svg class="icon"><use href="#i-bag"/></svg></span>[NOME DA LOJA]</span>
+        <p>Tudo o que você precisa, em um só lugar. Entregamos para todo o Brasil.</p>
+        <!-- Troque pelos perfis reais -->
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg class="icon"><use href="#i-insta"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg class="icon"><use href="#i-fb"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="icon"><use href="#i-yt"/></svg></a>
+        </div>
+      </div>
+      <nav aria-label="Sobre"><h2>Sobre</h2><ul><li><a href="#">Quem somos</a></li><li><a href="#">Trabalhe conosco</a></li><li><a href="#">Blog</a></li><li><a href="#">Política de privacidade</a></li></ul></nav>
+      <nav aria-label="Ajuda"><h2>Ajuda</h2><ul><li><a href="#">Rastrear pedido</a></li><li><a href="#">Trocas e devoluções</a></li><li><a href="#">Prazos de entrega</a></li><li><a href="#">Perguntas frequentes</a></li></ul></nav>
+      <nav aria-label="Categorias"><h2>Categorias</h2><ul><li><a href="#">Computadores</a></li><li><a href="#">Celulares e Tablets</a></li><li><a href="#">TVs</a></li><li><a href="#">Games</a></li></ul></nav>
+      <div><h2>Atendimento</h2><ul><li><a data-whatsapp href="#" target="_blank" rel="noopener">WhatsApp: (00) 00000-0000</a></li><li><a href="mailto:contato@suamarca.com.br">contato@suamarca.com.br</a></li><li style="color:var(--muted)">Seg. a sáb., 8h às 20h</li></ul></div>
+      <div><h2>Formas de pagamento</h2><div class="pay"><span>Pix</span><span>Visa</span><span>Mastercard</span><span>Elo</span><span>Amex</span><span>Boleto</span></div></div>
+    </div>
+    <div class="copyright"><div class="container">© <span id="year">2026</span> [NOME DA LOJA]. Todos os direitos reservados. CNPJ 00.000.000/0001-00</div></div>
+  </footer>
+
+  <!-- WhatsApp flutuante -->
+  <a class="wa-float" data-whatsapp href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg class="icon"><use href="#i-wa"/></svg></a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* =========================================================
+       CONFIGURAÇÃO (troque aqui)
+       ========================================================= */
+    const WHATSAPP_LINK = 'https://wa.me/55DDDNUMERO';
+    const HERO_INTERVAL = 6000; // ms entre slides do hero
+
+    // Placeholder de imagem: TROQUE por URLs das fotos reais dos produtos.
+    const ph = (text, w = 400, h = 400, bg = 'ffffff') =>
+      `https://placehold.co/${w}x${h}/${bg}/1E55D6/png?text=${encodeURIComponent(text)}&font=poppins`;
+
+    /* ---------- Dados (substitua pelos produtos reais) ---------- */
+    const CATEGORIES = [
+      { name: 'Computadores', icon: 'i-laptop' },
+      { name: 'Câmeras', icon: 'i-camera' },
+      { name: 'TVs', icon: 'i-tv' },
+      { name: 'Smartwatches', icon: 'i-watch' },
+      { name: 'Games', icon: 'i-game' },
+      { name: 'Celulares e Tablets', icon: 'i-mobile' },
+      { name: 'Fones', icon: 'i-headphones' },
+      { name: 'Acessórios', icon: 'i-plug' },
+    ];
+
+    const DEALS = [
+      { cat: 'Fones', name: 'Fone de ouvido Bluetooth com cancelamento de ruído', price: 249.9, old: 399.9, rating: 4.5, reviews: 128, sold: 14, stock: 20 },
+      { cat: 'Smartwatches', name: 'Smartwatch com GPS e monitor cardíaco', price: 599, old: 899, rating: 4, reviews: 76, sold: 9, stock: 20 },
+      { cat: 'Games', name: 'Controle sem fio para console, cor azul', price: 329.9, old: 449.9, rating: 5, reviews: 214, sold: 17, stock: 20 },
+      { cat: 'Acessórios', name: 'Carregador turbo 65W USB-C com cabo', price: 119.9, old: 189.9, rating: 4.5, reviews: 342, sold: 5, stock: 20 },
+      { cat: 'Câmeras', name: 'Câmera de segurança Wi-Fi Full HD 360°', price: 189, old: 279, rating: 4, reviews: 58, sold: 11, stock: 20 },
+      { cat: 'Computadores', name: 'Teclado mecânico RGB ABNT2 compacto', price: 279.9, old: 369.9, rating: 4.5, reviews: 97, sold: 8, stock: 20 },
+      { cat: 'TVs', name: 'Soundbar 2.1 com subwoofer sem fio', price: 899, old: 1299, rating: 4.5, reviews: 41, sold: 6, stock: 20 },
+      { cat: 'Celulares e Tablets', name: 'Tablet 10" 128 GB com caneta', price: 1499, old: 1999, rating: 4, reviews: 63, sold: 12, stock: 20 },
+    ];
+
+    // Cada aba tem 8 itens laterais + 1 destaque central
+    const TRENDING = {
+      best: { featured: { cat: 'Celulares e Tablets', name: 'Smartphone 256 GB, câmera tripla de 108 MP', price: 2299, old: 2799, rating: 4.5, reviews: 512, colors: ['Azul', 'Grafite', 'Prata'] },
+              items: ['Notebook 15" 16 GB', 'Fone esportivo', 'Mouse sem fio', 'Caixa de som portátil', 'Smart TV 50" 4K', 'Console portátil', 'Webcam Full HD', 'Power bank 20.000 mAh'] },
+      promo: { featured: { cat: 'TVs', name: 'Smart TV 55" 4K QLED com controle por voz', price: 2799, old: 3699, rating: 4.5, reviews: 233, colors: ['Preta', 'Titânio', 'Branca'] },
+              items: ['Air fryer 4 L', 'Aspirador robô', 'Cafeteira expresso', 'Liquidificador 1200W', 'Ventilador de torre', 'Panela elétrica', 'Lâmpada inteligente', 'Chaleira elétrica'] },
+      featured: { featured: { cat: 'Games', name: 'Console de nova geração 1 TB + 2 controles', price: 3899, old: 4499, rating: 5, reviews: 845, colors: ['Branco', 'Preto', 'Azul'] },
+              items: ['Headset gamer 7.1', 'Cadeira gamer', 'Monitor 27" 144 Hz', 'Volante com pedais', 'SSD 1 TB', 'Mousepad XL', 'Microfone USB', 'Controle Pro'] },
+      new: { featured: { cat: 'Smartwatches', name: 'Smartwatch Série 9 com tela AMOLED', price: 1799, old: 2099, rating: 4.5, reviews: 88, colors: ['Meia-noite', 'Estelar', 'Azul'] },
+              items: ['Fone com estojo', 'Tablet infantil', 'Câmera instantânea', 'Drone com câmera', 'Projetor portátil', 'Kindle 11ª ger.', 'Echo com tela', 'Óculos VR'] },
+    };
+
+    /* ---------- Utilitários ---------- */
+    const $ = (s, el = document) => el.querySelector(s);
+    const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+    const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const off = (p, o) => Math.round((1 - p / o) * 100);
+
+    function stars(rating) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        const cls = rating >= i - 0.25 ? '' : 'off';
+        html += `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>`;
+      }
+      return `<span class="stars" role="img" aria-label="Avaliação ${String(rating).replace('.', ',')} de 5">${html}</span>`;
+    }
+
+    function productCard(p, { deal = false } = {}) {
+      const discount = p.old ? off(p.price, p.old) : 0;
+      return `
+        <article class="product">
+          ${discount ? `<span class="badge-sale">-${discount}%</span>` : ''}
+          <p class="cat-name">${p.cat}</p>
+          <h3><a href="#">${p.name}</a></h3>
+          <div class="product-img">
+            <img src="${ph(p.name.split(' ')[0])}" alt="${p.name}" width="400" height="400" loading="lazy" />
+            <div class="quick">
+              <button type="button" data-fav aria-pressed="false" aria-label="Favoritar ${p.name}"><svg class="icon"><use href="#i-heart"/></svg></button>
+              <button type="button" data-compare aria-label="Comparar ${p.name}"><svg class="icon"><use href="#i-compare"/></svg></button>
+              <button type="button" data-add="${p.price}" aria-label="Adicionar ${p.name} ao carrinho"><svg class="icon"><use href="#i-cart"/></svg></button>
+            </div>
+          </div>
+          <div class="price"><span class="now tabular">${brl(p.price)}</span>${p.old ? `<span class="old tabular"><span class="sr-only">de </span>${brl(p.old)}</span>` : ''}</div>
+          <div class="rating">${stars(p.rating)}<span>(${p.reviews})</span></div>
+          ${deal ? `
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${p.stock}" aria-valuenow="${p.sold}" aria-label="Unidades vendidas"><span style="width:${(p.sold / p.stock) * 100}%"></span></div>
+            <p class="sold">Já vendidos: <strong>${p.sold}/${p.stock}</strong></p>` : ''}
+        </article>`;
+    }
+
+    /* ---------- Links do WhatsApp ---------- */
+    $$('[data-whatsapp]').forEach((a) => (a.href = WHATSAPP_LINK));
+    $('#year').textContent = new Date().getFullYear();
+
+    /* ---------- Categorias (carrossel + menu de departamentos + select da busca) ---------- */
+    $('#catList').innerHTML = CATEGORIES.map((c, i) => `
+      <li><a href="#" class="cat" ${i === 0 ? 'aria-current="true"' : ''}>
+        <span class="cat-icon"><svg class="icon"><use href="#${c.icon}"/></svg></span>${c.name}</a></li>`).join('');
+    $('#deptList').innerHTML = CATEGORIES.map((c) => `
+      <li><a href="#"><svg class="icon"><use href="#${c.icon}"/></svg>${c.name}</a></li>`).join('');
+    $('#searchCat').insertAdjacentHTML('beforeend', CATEGORIES.map((c) => `<option>${c.name}</option>`).join(''));
+    $('#catList').addEventListener('click', (e) => {
+      const link = e.target.closest('.cat');
+      if (!link) return;
+      e.preventDefault();
+      $$('.cat', $('#catList')).forEach((c) => c.removeAttribute('aria-current'));
+      link.setAttribute('aria-current', 'true');
+    });
+
+    /* ---------- Ofertas do dia ---------- */
+    $('#dealsList').innerHTML = DEALS.map((p) => `<li>${productCard(p, { deal: true })}</li>`).join('');
+
+    /* ---------- Em alta (abas) ---------- */
+    function renderTrending(key) {
+      const data = TRENDING[key];
+      const f = data.featured;
+      const side = data.items.map((name, i) => {
+        const price = 99 + ((i * 137 + key.length * 53) % 900) + 0.9;
+        return productCard({ cat: f.cat, name, price, old: i % 2 ? Math.round(price * 1.25) : null, rating: 4 + (i % 3) * 0.25, reviews: 20 + i * 17 });
+      });
+      const discount = off(f.price, f.old);
+      const featured = `
+        <article class="product featured">
+          <span class="badge-sale">-${discount}%</span>
+          <p class="cat-name">${f.cat}</p>
+          <h3><a href="#">${f.name}</a></h3>
+          <div class="product-img">
+            <img id="featImg" src="${ph(f.colors[0], 600, 520)}" alt="${f.name}, cor ${f.colors[0]}" width="600" height="520" loading="lazy" />
+            <div class="quick">
+              <button type="button" data-fav aria-pressed="false" aria-label="Favoritar ${f.name}"><svg class="icon"><use href="#i-heart"/></svg></button>
+              <button type="button" data-compare aria-label="Comparar ${f.name}"><svg class="icon"><use href="#i-compare"/></svg></button>
+              <button type="button" data-add="${f.price}" aria-label="Adicionar ${f.name} ao carrinho"><svg class="icon"><use href="#i-cart"/></svg></button>
+            </div>
+          </div>
+          <div class="swatches" role="group" aria-label="Cores disponíveis">
+            ${f.colors.map((c, i) => `<button type="button" class="swatch" data-color="${c}" aria-pressed="${i === 0}" aria-label="Cor ${c}"><img src="${ph(c, 100, 100, 'F1F2F4')}" alt="" width="100" height="100" loading="lazy" /></button>`).join('')}
+          </div>
+          <div class="price"><span class="now tabular">${brl(f.price)}</span><span class="old tabular"><span class="sr-only">de </span>${brl(f.old)}</span></div>
+          <div class="rating">${stars(f.rating)}<span>(${f.reviews} avaliações)</span></div>
+          <a href="#" class="btn btn-primary" style="margin-top:16px;min-height:44px">Comprar agora</a>
+        </article>`;
+      // Ordem: 4 cards à esquerda, destaque no centro, 4 à direita (o CSS posiciona)
+      $('#trendGrid').innerHTML = side.slice(0, 4).join('') + featured + side.slice(4).join('');
+    }
+    renderTrending('best');
+
+    $('#tabs').addEventListener('click', (e) => {
+      const tab = e.target.closest('[data-tab]');
+      if (!tab || tab.getAttribute('aria-selected') === 'true') return;
+      $$('[data-tab]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      const panel = $('#trendPanel');
+      panel.classList.add('fading');
+      setTimeout(() => { renderTrending(tab.dataset.tab); panel.classList.remove('fading'); }, reduceMotion ? 0 : 180);
+    });
+
+    // Troca de cor no card destaque
+    $('#trendGrid').addEventListener('click', (e) => {
+      const sw = e.target.closest('.swatch');
+      if (!sw) return;
+      $$('.swatch').forEach((s) => s.setAttribute('aria-pressed', String(s === sw)));
+      const img = $('#featImg');
+      img.src = ph(sw.dataset.color, 600, 520);
+      img.alt = img.alt.replace(/cor .*$/, 'cor ' + sw.dataset.color);
+    });
+
+    /* ---------- Ações rápidas: favoritar, comparar, carrinho ---------- */
+    let cartCount = 0, cartTotal = 0, favCount = 2;
+    const toast = $('#toast');
+    let toastTimer;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    document.addEventListener('click', (e) => {
+      const add = e.target.closest('[data-add]');
+      const fav = e.target.closest('[data-fav]');
+      const cmp = e.target.closest('[data-compare]');
+      if (add) {
+        cartCount++; cartTotal += Number(add.dataset.add);
+        $('#cartCount').textContent = cartCount;
+        $('#cartTotal').textContent = brl(cartTotal);
+        $('#cartLink').setAttribute('aria-label', `Carrinho: ${cartCount} itens, ${brl(cartTotal)}`);
+        showToast('Produto adicionado ao carrinho');
+      } else if (fav) {
+        const on = fav.getAttribute('aria-pressed') !== 'true';
+        fav.setAttribute('aria-pressed', String(on));
+        favCount += on ? 1 : -1;
+        $('#favCount').textContent = favCount;
+        $('#favLink').setAttribute('aria-label', `Favoritos (${favCount} itens)`);
+        showToast(on ? 'Adicionado aos favoritos' : 'Removido dos favoritos');
+      } else if (cmp) {
+        showToast('Produto adicionado à comparação');
+      }
+    });
+
+    /* ---------- Setas dos carrosséis (o arraste no celular é nativo) ---------- */
+    $$('[data-scroll]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const list = $(btn.dataset.scroll);
+        list.scrollBy({ left: Number(btn.dataset.dir) * list.clientWidth * 0.8, behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+    });
+    // Desativa a seta quando chega ao início/fim
+    ['#catList', '#dealsList'].forEach((sel) => {
+      const list = $(sel);
+      const update = () => {
+        $$(`[data-scroll="${sel}"]`).forEach((b) => {
+          const atStart = list.scrollLeft <= 2;
+          const atEnd = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+          b.disabled = b.dataset.dir === '-1' ? atStart : atEnd;
+        });
+      };
+      list.addEventListener('scroll', update, { passive: true });
+      addEventListener('resize', update);
+      update();
+    });
+
+    /* ---------- Arraste com o mouse nos carrosséis (desktop) ---------- */
+    ['#catList', '#dealsList'].forEach((sel) => {
+      const el = $(sel);
+      let down = false, startX = 0, startLeft = 0, moved = false;
+      el.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse') return; // toque já arrasta nativamente
+        down = true; moved = false; startX = e.clientX; startLeft = el.scrollLeft;
+      });
+      addEventListener('pointermove', (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 6) { moved = true; el.style.scrollSnapType = 'none'; el.style.scrollBehavior = 'auto'; }
+        if (moved) el.scrollLeft = startLeft - dx;
+      });
+      addEventListener('pointerup', () => { if (!down) return; down = false; el.style.scrollSnapType = ''; el.style.scrollBehavior = ''; });
+      el.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+      el.addEventListener('dragstart', (e) => e.preventDefault());
+    });
+
+    /* ---------- Hero: carrossel automático ---------- */
+    const slides = $$('.slide');
+    const dotsWrap = $('#heroDots');
+    let current = 0, timer;
+    slides.forEach((_, i) => {
+      dotsWrap.insertAdjacentHTML('beforeend', `<button class="dot" aria-label="Ir para o destaque ${i + 1}" ${i === 0 ? 'aria-current="true"' : ''}></button>`);
+    });
+    const dots = $$('.dot', dotsWrap);
+    function goTo(i) {
+      slides[current].classList.remove('active');
+      dots[current].removeAttribute('aria-current');
+      current = (i + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].setAttribute('aria-current', 'true');
+    }
+    function play() { if (!reduceMotion) { clearInterval(timer); timer = setInterval(() => goTo(current + 1), HERO_INTERVAL); } }
+    function pause() { clearInterval(timer); }
+    $('#heroPrev').addEventListener('click', () => { goTo(current - 1); play(); });
+    $('#heroNext').addEventListener('click', () => { goTo(current + 1); play(); });
+    dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); play(); }));
+    const hero = $('.hero');
+    hero.addEventListener('mouseenter', pause);
+    hero.addEventListener('mouseleave', play);
+    hero.addEventListener('focusin', pause);
+    hero.addEventListener('focusout', play);
+    // Arraste/swipe no hero
+    let sx = null;
+    hero.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchend', (e) => {
+      if (sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 50) { goTo(current + (dx < 0 ? 1 : -1)); play(); }
+      sx = null;
+    });
+    play();
+
+    /* ---------- Contagem regressiva (até a meia-noite de hoje) ---------- */
+    const pad = (n) => String(n).padStart(2, '0');
+    function tick() {
+      const now = new Date();
+      const end = new Date(now); end.setHours(24, 0, 0, 0);
+      const diff = Math.max(0, end - now);
+      $('#cdH').textContent = pad(Math.floor(diff / 3.6e6));
+      $('#cdM').textContent = pad(Math.floor((diff % 3.6e6) / 6e4));
+      $('#cdS').textContent = pad(Math.floor((diff % 6e4) / 1000));
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* ---------- Menu de departamentos ---------- */
+    const deptBtn = $('#deptBtn'), deptMenu = $('#deptMenu');
+    function setDept(open) { deptMenu.classList.toggle('open', open); deptBtn.setAttribute('aria-expanded', String(open)); }
+    deptBtn.addEventListener('click', (e) => { e.stopPropagation(); setDept(!deptMenu.classList.contains('open')); });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.dept')) setDept(false); });
+
+    /* ---------- Gaveta (menu hambúrguer) ---------- */
+    const drawer = $('#drawer'), menuBtn = $('#menuBtn');
+    function setDrawer(open) {
+      drawer.classList.toggle('open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
+      menuBtn.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) $('[data-close-drawer].icon-btn', drawer).focus(); else menuBtn.focus();
+    }
+    menuBtn.addEventListener('click', () => setDrawer(true));
+    $$('[data-close-drawer]').forEach((el) => el.addEventListener('click', () => setDrawer(false)));
+    $$('.drawer nav a').forEach((a) => a.addEventListener('click', () => setDrawer(false)));
+
+    /* ---------- Busca recolhível (celular) ---------- */
+    const searchToggle = $('#searchToggle');
+    searchToggle.addEventListener('click', () => {
+      const open = $('#bluebar').classList.toggle('search-open');
+      searchToggle.setAttribute('aria-expanded', String(open));
+      searchToggle.setAttribute('aria-label', open ? 'Esconder busca' : 'Mostrar busca');
+      if (open) $('#q').focus();
+    });
+
+    /* ---------- Tecla Esc fecha menus abertos ---------- */
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (drawer.classList.contains('open')) setDrawer(false);
+      if (deptMenu.classList.contains('open')) { setDept(false); deptBtn.focus(); }
+    });
+  </script>
+</body>
+</html>

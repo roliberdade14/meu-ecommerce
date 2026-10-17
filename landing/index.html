@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[NOME DA LOJA] | Tudo o que você precisa, em um só lugar</title>
+  <meta name="description" content="Encontre de tudo, compre em poucos cliques e resolva seu pedido em minutos. Atendimento pelo WhatsApp." />
+
+  <!-- =========================================================
+       FONTES: Poppins (títulos) + Inter (texto)
+       Para trocar, altere o link abaixo E o "fontFamily" no tailwind.config.
+       ========================================================= -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN (para produção, considere compilar com o Tailwind CLI) -->
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    /* =========================================================
+       TEMA: cores da marca e fontes em um só lugar.
+       Troque os valores aqui e a página inteira acompanha.
+       ========================================================= */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#1E55D6', // azul royal: hero, chamada final, ícones, links ativos
+              dark:    '#163FA6', // círculos decorativos, hover, barra do topo
+              light:   '#E8EEFC', // fundo dos círculos de categoria
+            },
+            accent: {
+              DEFAULT: '#FFD60A', // amarelo: botão principal sobre o azul, estrelas
+              dark:    '#F5C400', // hover do botão amarelo
+            },
+            sale:    '#E5262D',   // vermelho: só em selos pequenos
+            ink:     '#111827',   // texto principal
+            muted:   '#5B6270',   // texto secundário
+            surface: '#F1F2F4',   // blocos cinza claro
+            line:    '#E3E5E9',   // bordas finas
+            whatsapp:'#25D366',   // botão flutuante
+          },
+          fontFamily: {
+            display: ['Poppins', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 1px 2px rgba(17,24,39,.04), 0 8px 24px rgba(17,24,39,.06)',
+            lift: '0 2px 4px rgba(17,24,39,.05), 0 16px 40px rgba(17,24,39,.10)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Rolagem suave nas âncoras, descontando o cabeçalho fixo */
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+
+    /* Foco visível e consistente em tudo que é clicável */
+    :focus-visible { outline: 3px solid #FFD60A; outline-offset: 3px; border-radius: 8px; }
+    .on-light :focus-visible, .on-light:focus-visible { outline-color: #1E55D6; }
+
+    /* Esconde a barra de rolagem da faixa de categorias no celular */
+    .no-scrollbar { scrollbar-width: none; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* ---------- Animações leves (só CSS) ---------- */
+    @keyframes rise   { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    .anim-rise   { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+    .delay-1 { animation-delay: .08s; } .delay-2 { animation-delay: .16s; } .delay-3 { animation-delay: .24s; }
+    .anim-float  { animation: floaty 6s ease-in-out infinite; }
+
+    /* Revelar seções ao rolar (navegadores com suporte a scroll-driven animations) */
+    @supports (animation-timeline: view()) {
+      .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 40%; }
+    }
+
+    /* Modal do formulário */
+    dialog::backdrop { background: rgba(17,24,39,.55); }
+    dialog[open] { animation: pop .22s cubic-bezier(.2,.7,.2,1); }
+    @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+
+    /* Respeita quem pediu menos movimento no sistema */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-white font-sans text-ink antialiased">
+
+  <!-- Link para pular direto ao conteúdo (acessibilidade de teclado) -->
+  <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-brand focus:shadow-lift">Pular para o conteúdo</a>
+
+  <!-- =========================================================
+       1. MENU
+       ========================================================= -->
+  <header class="sticky top-0 z-50">
+    <!-- Barra fina de aviso: troque o texto quando quiser -->
+    <div class="bg-brand-dark text-white">
+      <p class="mx-auto max-w-6xl px-4 py-2 text-center text-xs font-medium sm:text-sm">
+        <span class="mr-1.5 rounded bg-sale px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide">Frete grátis</span>
+        em compras acima de R$ 199 para todo o Brasil
+      </p>
+    </div>
+
+    <!-- Cabeçalho branco -->
+    <div class="on-light border-b border-line bg-white/95 backdrop-blur">
+      <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4" aria-label="Principal">
+        <!-- LOGO: troque o texto por <img src="logo.svg" alt="[NOME DA LOJA]" class="h-8"> -->
+        <a href="#topo" class="flex items-center gap-2 font-display text-lg font-bold text-ink">
+          <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand text-white" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </span>
+          [NOME DA LOJA]
+        </a>
+
+        <!-- Links (desktop) -->
+        <ul class="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
+          <li><a href="#beneficios" class="transition-colors hover:text-brand">Benefícios</a></li>
+          <li><a href="#como-funciona" class="transition-colors hover:text-brand">Como funciona</a></li>
+          <li><a href="#depoimentos" class="transition-colors hover:text-brand">Depoimentos</a></li>
+          <li><a href="#contato" class="transition-colors hover:text-brand">Contato</a></li>
+        </ul>
+
+        <div class="flex items-center gap-2">
+          <a data-whatsapp href="#" target="_blank" rel="noopener" class="hidden items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark sm:inline-flex">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
+            WhatsApp
+          </a>
+          <!-- Botão hambúrguer (celular) -->
+          <button id="menuBtn" type="button" class="grid h-11 w-11 place-items-center rounded-lg text-ink hover:bg-surface md:hidden" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menu">
+            <svg id="iconOpen" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg id="iconClose" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Menu do celular -->
+      <div id="mobileMenu" class="hidden border-t border-line bg-white md:hidden">
+        <ul class="mx-auto max-w-6xl space-y-1 px-4 py-3 text-base font-medium">
+          <li><a href="#beneficios" class="block rounded-lg px-3 py-3 hover:bg-surface">Benefícios</a></li>
+          <li><a href="#como-funciona" class="block rounded-lg px-3 py-3 hover:bg-surface">Como funciona</a></li>
+          <li><a href="#depoimentos" class="block rounded-lg px-3 py-3 hover:bg-surface">Depoimentos</a></li>
+          <li><a href="#contato" class="block rounded-lg px-3 py-3 hover:bg-surface">Contato</a></li>
+          <li class="pt-2">
+            <a data-whatsapp href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 font-semibold text-white">WhatsApp</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- =========================================================
+         2. HERO
+         ========================================================= -->
+    <section id="topo" class="relative overflow-hidden bg-brand pb-28 pt-12 text-white sm:pt-16 lg:pb-36 lg:pt-20">
+      <!-- Círculos decorativos -->
+      <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-dark/70"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute -bottom-40 right-1/3 h-80 w-80 rounded-full bg-brand-dark/50"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute -left-20 top-1/2 h-56 w-56 rounded-full bg-brand-dark/40"></div>
+
+      <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 lg:grid-cols-2">
+        <!-- Texto -->
+        <div>
+          <h1 class="anim-rise font-display text-4xl leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+            <span class="font-bold">Tudo o que você precisa,</span>
+            <span class="font-light">em um só lugar.</span>
+          </h1>
+          <p class="anim-rise delay-1 mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
+            Encontre de tudo, compre em poucos cliques e resolva seu pedido em minutos. Sem complicação, sem perder tempo procurando em vários sites.
+          </p>
+          <div class="anim-rise delay-2 mt-8 flex flex-col gap-3 sm:flex-row">
+            <a data-whatsapp href="#" target="_blank" rel="noopener" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-6 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
+              Chamar no WhatsApp
+            </a>
+            <button type="button" data-open-form class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white/80 px-6 font-semibold text-white transition hover:bg-white hover:text-brand">
+              Prefiro preencher um formulário
+            </button>
+          </div>
+        </div>
+
+        <!-- Composição de imagens de produto (placeholders)
+             TROQUE as URLs abaixo por fotos reais dos produtos (fundo branco ou transparente). -->
+        <div class="relative mx-auto h-[300px] w-full max-w-md sm:h-[380px] lg:h-[440px]" aria-label="Produtos em destaque">
+          <img src="https://placehold.co/520x520/ffffff/1E55D6/png?text=Fone+de+ouvido&font=poppins" alt="Fone de ouvido sem fio" width="520" height="520"
+               class="anim-rise delay-1 absolute left-0 top-6 w-[58%] rounded-2xl border border-white/20 shadow-lift" />
+          <img src="https://placehold.co/420x420/F1F2F4/111827/png?text=Smartphone&font=poppins" alt="Smartphone" width="420" height="420"
+               class="anim-rise delay-2 anim-float absolute right-0 top-0 w-[46%] rounded-2xl border border-white/20 shadow-lift" />
+          <img src="https://placehold.co/420x420/FFD60A/111827/png?text=Casa+%26+Decor&font=poppins" alt="Item de decoração para casa" width="420" height="420"
+               class="anim-rise delay-3 absolute bottom-0 right-[12%] w-[44%] rounded-2xl border border-white/20 shadow-lift" />
+          <span class="anim-rise delay-3 absolute bottom-8 left-2 rounded-lg bg-sale px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-soft">Novidades toda semana</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. FAIXA DE CATEGORIAS (sobreposta ao hero)
+         ========================================================= -->
+    <section aria-labelledby="titulo-categorias" class="on-light relative z-10 -mt-16 px-4 lg:-mt-20">
+      <div class="mx-auto max-w-6xl rounded-xl border border-line bg-white p-5 shadow-lift sm:p-6">
+        <h2 id="titulo-categorias" class="sr-only">Categorias</h2>
+        <ul class="no-scrollbar -mx-1 flex snap-x gap-2 overflow-x-auto px-1 lg:grid lg:grid-cols-8 lg:overflow-visible">
+          <!-- Cada item: troque o href pelo link da categoria na loja -->
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>Eletrônicos</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span>Casa</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>Moda</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4M5 17v4M3 19h4"/></svg></span>Beleza</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="12" x="2" y="6" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/></svg></span>Games</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg></span>Celulares</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"/><path d="M12 10v2l1 1"/><path d="m16.1 7.7-.8-4.1a2 2 0 0 0-2-1.6h-2.7a2 2 0 0 0-2 1.6l-.8 4.1M7.9 16.4l.8 4a2 2 0 0 0 2 1.6h2.7a2 2 0 0 0 2-1.6l.8-4"/></svg></span>Acessórios</a></li>
+          <li class="snap-start"><a href="#" class="group flex w-24 flex-col items-center gap-2 rounded-lg p-2 text-center text-sm font-medium lg:w-auto">
+            <span class="grid h-16 w-16 place-items-center rounded-full bg-brand-light text-brand transition group-hover:bg-brand group-hover:text-white"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>Presentes</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. BENEFÍCIOS
+         ========================================================= -->
+    <section id="beneficios" class="on-light px-4 py-20 sm:py-24" aria-labelledby="titulo-beneficios">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="titulo-beneficios" class="reveal text-center font-display text-3xl tracking-tight sm:text-4xl">
+          <span class="font-bold">Benefícios</span>
+        </h2>
+        <div class="mt-12 grid gap-5 md:grid-cols-3">
+          <article class="reveal rounded-xl border border-line bg-surface p-7 transition hover:-translate-y-1 hover:shadow-soft">
+            <span class="grid h-14 w-14 place-items-center rounded-full bg-brand text-white" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-lg font-semibold">Compre em minutos, não em horas</h3>
+            <p class="mt-2 leading-relaxed text-muted">Escolha, pague e finalize em poucos cliques. Sem telas confusas e sem cadastro demorado: você faz o que precisa e segue com o seu dia.</p>
+          </article>
+          <article class="reveal rounded-xl border border-line bg-surface p-7 transition hover:-translate-y-1 hover:shadow-soft">
+            <span class="grid h-14 w-14 place-items-center rounded-full bg-brand text-white" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-lg font-semibold">Encontre tudo sem sair do lugar</h3>
+            <p class="mt-2 leading-relaxed text-muted">De itens do dia a dia a presentes e novidades, está tudo aqui. Você para de abrir dez abas e resolve em uma única compra.</p>
+          </article>
+          <article class="reveal rounded-xl border border-line bg-surface p-7 transition hover:-translate-y-1 hover:shadow-soft">
+            <span class="grid h-14 w-14 place-items-center rounded-full bg-brand text-white" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-lg font-semibold">Ajuda de verdade quando você precisar</h3>
+            <p class="mt-2 leading-relaxed text-muted">Tem dúvida? Fale com a nossa equipe pelo WhatsApp e compre com mais segurança e tranquilidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. COMO FUNCIONA
+         ========================================================= -->
+    <section id="como-funciona" class="on-light border-y border-line bg-white px-4 py-20 sm:py-24" aria-labelledby="titulo-como">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="titulo-como" class="reveal text-center font-display text-3xl tracking-tight sm:text-4xl">
+          <span class="font-bold">Como</span> <span class="font-light">funciona</span>
+        </h2>
+
+        <ol class="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          <!-- Linha que liga os passos (só no desktop) -->
+          <span aria-hidden="true" class="absolute left-[16.66%] right-[16.66%] top-7 hidden border-t-2 border-dashed border-brand/30 md:block"></span>
+
+          <li class="reveal relative flex gap-5 md:flex-col md:items-center md:text-center">
+            <span class="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand font-display text-xl font-bold text-white ring-8 ring-white">1</span>
+            <div>
+              <h3 class="font-display text-lg font-semibold">Escolha o que você precisa.</h3>
+              <p class="mt-2 leading-relaxed text-muted">Navegue pelas categorias ou use a busca e encontre tudo em um só lugar.</p>
+            </div>
+          </li>
+          <li class="reveal relative flex gap-5 md:flex-col md:items-center md:text-center">
+            <span class="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand font-display text-xl font-bold text-white ring-8 ring-white">2</span>
+            <div>
+              <h3 class="font-display text-lg font-semibold">Finalize em poucos cliques.</h3>
+              <p class="mt-2 leading-relaxed text-muted">Confirme seu pedido e pague do jeito mais prático para você.</p>
+            </div>
+          </li>
+          <li class="reveal relative flex gap-5 md:flex-col md:items-center md:text-center">
+            <span class="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand font-display text-xl font-bold text-white ring-8 ring-white">3</span>
+            <div>
+              <h3 class="font-display text-lg font-semibold">Receba e acompanhe.</h3>
+              <p class="mt-2 leading-relaxed text-muted">Fique por dentro de cada etapa e conte com a nossa equipe se precisar de ajuda.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. DEPOIMENTOS
+         ATENÇÃO: os depoimentos abaixo são FICTÍCIOS.
+         Troque por avaliações reais de clientes ANTES de publicar.
+         ========================================================= -->
+    <section id="depoimentos" class="on-light bg-surface px-4 py-20 sm:py-24" aria-labelledby="titulo-depoimentos">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="titulo-depoimentos" class="reveal text-center font-display text-3xl tracking-tight sm:text-4xl">
+          <span class="font-bold">Depoimentos</span>
+        </h2>
+        <div class="mt-12 grid gap-5 md:grid-cols-2">
+          <figure class="reveal relative rounded-xl border border-line bg-white p-7 shadow-soft sm:p-8">
+            <svg class="absolute right-6 top-6 h-10 w-10 text-brand-light" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.3C7.6 15 8.3 13.8 8.4 12H7zm8 0h4v4c0 3-1.5 5-4 6l-.8-1.3c1.4-.7 2.1-1.9 2.2-3.7H15z"/></svg>
+            <div class="flex gap-0.5 text-accent-dark" role="img" aria-label="Avaliação: 5 de 5 estrelas">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+            </div>
+            <blockquote class="mt-4 text-lg leading-relaxed">“Eu sempre perdia tempo procurando em vários sites. Aqui achei tudo na mesma compra e finalizei em menos de cinco minutos. Virei cliente fiel.”</blockquote>
+            <figcaption class="mt-6 flex items-center gap-3">
+              <!-- Avatar: troque pela foto real do cliente (com autorização) -->
+              <span class="grid h-11 w-11 place-items-center rounded-full bg-brand font-semibold text-white" aria-hidden="true">MS</span>
+              <span><strong class="block font-semibold">Mariana S.</strong><span class="text-sm text-muted">Curitiba (PR)</span></span>
+            </figcaption>
+          </figure>
+
+          <figure class="reveal relative rounded-xl border border-line bg-white p-7 shadow-soft sm:p-8">
+            <svg class="absolute right-6 top-6 h-10 w-10 text-brand-light" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.3C7.6 15 8.3 13.8 8.4 12H7zm8 0h4v4c0 3-1.5 5-4 6l-.8-1.3c1.4-.7 2.1-1.9 2.2-3.7H15z"/></svg>
+            <div class="flex gap-0.5 text-accent-dark" role="img" aria-label="Avaliação: 5 de 5 estrelas">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+            </div>
+            <blockquote class="mt-4 text-lg leading-relaxed">“Precisei de uma ajuda antes de comprar e fui atendido rapidinho pelo WhatsApp. Compra simples, sem dor de cabeça. Recomendo!”</blockquote>
+            <figcaption class="mt-6 flex items-center gap-3">
+              <span class="grid h-11 w-11 place-items-center rounded-full bg-brand font-semibold text-white" aria-hidden="true">CA</span>
+              <span><strong class="block font-semibold">Carlos A.</strong><span class="text-sm text-muted">Recife (PE)</span></span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. CHAMADA FINAL
+         ========================================================= -->
+    <section id="contato" class="relative overflow-hidden bg-brand px-4 py-20 text-white sm:py-24" aria-labelledby="titulo-cta">
+      <div aria-hidden="true" class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand-dark/60"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -right-16 h-80 w-80 rounded-full bg-brand-dark/60"></div>
+
+      <div class="reveal relative mx-auto max-w-3xl text-center">
+        <h2 id="titulo-cta" class="font-display text-3xl tracking-tight sm:text-4xl lg:text-5xl">
+          <span class="font-bold">Pronto para comprar</span> <span class="font-light">sem complicação?</span>
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg text-white/90">Fale com a gente agora e encontre o que você procura em poucos minutos.</p>
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <a data-whatsapp href="#" target="_blank" rel="noopener" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-7 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
+            Chamar no WhatsApp
+          </a>
+          <button type="button" data-open-form class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white/80 px-7 font-semibold text-white transition hover:bg-white hover:text-brand">
+            Prefiro preencher um formulário
+          </button>
+        </div>
+        <p class="mt-5 text-sm text-white/80">Resposta rápida. Sem compromisso.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       8. RODAPÉ
+       ========================================================= -->
+  <footer class="on-light bg-white px-4 pt-14">
+    <div class="mx-auto grid max-w-6xl gap-10 pb-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <a href="#topo" class="flex items-center gap-2 font-display text-lg font-bold">
+          <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand text-white" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </span>
+          [NOME DA LOJA]
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">Tudo o que você precisa, em um só lugar.</p>
+      </div>
+
+      <nav aria-label="Links do rodapé">
+        <h2 class="font-display text-sm font-semibold uppercase tracking-wide">Navegação</h2>
+        <ul class="mt-4 space-y-2.5 text-sm text-muted">
+          <li><a href="#beneficios" class="hover:text-brand">Benefícios</a></li>
+          <li><a href="#como-funciona" class="hover:text-brand">Como funciona</a></li>
+          <li><a href="#depoimentos" class="hover:text-brand">Depoimentos</a></li>
+          <li><a href="#contato" class="hover:text-brand">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="font-display text-sm font-semibold uppercase tracking-wide">Contato</h2>
+        <!-- Troque pelos contatos reais da loja -->
+        <ul class="mt-4 space-y-2.5 text-sm text-muted">
+          <li><a data-whatsapp href="#" target="_blank" rel="noopener" class="hover:text-brand">WhatsApp: (00) 00000-0000</a></li>
+          <li><a href="mailto:contato@suamarca.com.br" class="hover:text-brand">contato@suamarca.com.br</a></li>
+          <li>Seg. a sáb., das 8h às 20h</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-display text-sm font-semibold uppercase tracking-wide">Redes sociais</h2>
+        <!-- Troque os href pelos perfis reais -->
+        <ul class="mt-4 flex gap-2">
+          <li><a href="#" aria-label="Instagram" class="grid h-11 w-11 place-items-center rounded-lg border border-line text-muted transition hover:border-brand hover:text-brand">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a></li>
+          <li><a href="#" aria-label="Facebook" class="grid h-11 w-11 place-items-center rounded-lg border border-line text-muted transition hover:border-brand hover:text-brand">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a></li>
+          <li><a href="#" aria-label="YouTube" class="grid h-11 w-11 place-items-center rounded-lg border border-line text-muted transition hover:border-brand hover:text-brand">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mx-auto max-w-6xl border-t border-line py-6 text-center text-xs text-muted sm:text-sm">
+      © <span id="ano">2026</span> [NOME DA LOJA]. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       BOTÃO FLUTUANTE DE WHATSAPP
+       ========================================================= -->
+  <a data-whatsapp href="#" target="_blank" rel="noopener" aria-label="Chamar no WhatsApp"
+     class="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-lift transition hover:scale-105 focus-visible:outline-brand">
+    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
+  </a>
+
+  <!-- =========================================================
+       FORMULÁRIO (modal)
+       Sem back-end: hoje ele só mostra a mensagem de sucesso.
+       Para receber os dados, ligue o form a um serviço (ex.: Formspree,
+       Google Forms, RD Station) no "action" ou no JavaScript abaixo.
+       ========================================================= -->
+  <dialog id="formDialog" aria-labelledby="titulo-form" class="on-light w-[calc(100%-2rem)] max-w-md rounded-xl border border-line p-0 text-ink shadow-lift">
+    <div class="p-6 sm:p-7">
+      <div class="flex items-start justify-between gap-4">
+        <h2 id="titulo-form" class="font-display text-xl font-semibold">Prefiro preencher um formulário</h2>
+        <button type="button" data-close-form class="-mr-2 -mt-2 grid h-11 w-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface" aria-label="Fechar formulário">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="leadForm" class="mt-5 space-y-4" novalidate>
+        <div>
+          <label for="nome" class="mb-1.5 block text-sm font-medium">Nome <span class="text-sale" aria-hidden="true">*</span></label>
+          <input id="nome" name="nome" type="text" autocomplete="name" required class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
+          <p class="field-error mt-1 hidden text-sm text-sale" role="alert">Informe seu nome.</p>
+        </div>
+        <div>
+          <label for="contato-campo" class="mb-1.5 block text-sm font-medium">WhatsApp ou e-mail <span class="text-sale" aria-hidden="true">*</span></label>
+          <input id="contato-campo" name="contato" type="text" autocomplete="email" inputmode="email" required class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
+          <p class="field-error mt-1 hidden text-sm text-sale" role="alert">Informe um WhatsApp ou e-mail para a gente responder.</p>
+        </div>
+        <div>
+          <label for="procura" class="mb-1.5 block text-sm font-medium">O que você está procurando?</label>
+          <textarea id="procura" name="procura" rows="3" class="block w-full rounded-lg border border-line px-3.5 py-3 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"></textarea>
+        </div>
+        <button type="submit" class="min-h-[52px] w-full rounded-xl bg-brand font-semibold text-white transition hover:bg-brand-dark">Enviar</button>
+        <p class="text-center text-sm text-muted">Resposta rápida. Sem compromisso.</p>
+      </form>
+
+      <div id="formSuccess" class="hidden py-6 text-center" role="status">
+        <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand text-white" aria-hidden="true">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <p class="mt-4 font-display text-lg font-semibold">Recebemos seu contato!</p>
+        <p class="mt-1 text-muted">Nossa equipe vai falar com você em breve.</p>
+        <button type="button" data-close-form class="mt-6 min-h-[48px] rounded-xl border border-line px-6 font-semibold hover:bg-surface">Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    /* =========================================================
+       CONFIGURAÇÃO: troque o link do WhatsApp SÓ AQUI.
+       Formato: https://wa.me/55DDDNUMERO (ex.: https://wa.me/5541999999999)
+       Dá para incluir uma mensagem pronta: ?text=Olá!%20Vim%20pelo%20site
+       ========================================================= */
+    const WHATSAPP_LINK = 'https://wa.me/55DDDNUMERO?text=Ol%C3%A1!%20Vim%20pelo%20site';
+
+    document.querySelectorAll('[data-whatsapp]').forEach((a) => (a.href = WHATSAPP_LINK));
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    /* ---------- Menu hambúrguer ---------- */
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    function setMenu(open) {
+      mobileMenu.classList.toggle('hidden', !open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      document.getElementById('iconOpen').classList.toggle('hidden', open);
+      document.getElementById('iconClose').classList.toggle('hidden', !open);
+    }
+    menuBtn.addEventListener('click', () => setMenu(mobileMenu.classList.contains('hidden')));
+    // Fecha o menu ao tocar em um link
+    mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+
+    /* ---------- Rolagem suave nas âncoras ----------
+       O CSS (scroll-behavior) já faz a maior parte; aqui garantimos o mesmo
+       comportamento em navegadores antigos e respeitamos "reduzir movimento". */
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const id = link.getAttribute('href');
+        if (id.length < 2) return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+        history.replaceState(null, '', id);
+      });
+    });
+
+    /* ---------- Formulário (abrir e fechar) ---------- */
+    const dialog = document.getElementById('formDialog');
+    const form = document.getElementById('leadForm');
+    const success = document.getElementById('formSuccess');
+
+    document.querySelectorAll('[data-open-form]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        form.classList.remove('hidden');
+        success.classList.add('hidden');
+        dialog.showModal(); // já prende o foco e fecha com Esc
+      })
+    );
+    dialog.querySelectorAll('[data-close-form]').forEach((btn) => btn.addEventListener('click', () => dialog.close()));
+    // Fecha ao clicar fora do card
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let firstInvalid = null;
+      form.querySelectorAll('[required]').forEach((input) => {
+        const error = input.parentElement.querySelector('.field-error');
+        const invalid = !input.value.trim();
+        error.classList.toggle('hidden', !invalid);
+        input.setAttribute('aria-invalid', String(invalid));
+        input.classList.toggle('border-sale', invalid);
+        if (invalid && !firstInvalid) firstInvalid = input;
+      });
+      if (firstInvalid) { firstInvalid.focus(); return; }
+
+      // AQUI: envie os dados para o seu serviço (fetch para Formspree, planilha etc.)
+      // const dados = Object.fromEntries(new FormData(form));
+
+      form.reset();
+      form.classList.add('hidden');
+      success.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
