@@ -1,0 +1,10 @@
+# Arquivos que não precisam ficar públicos no site da Vercel
+tests/
+supabase/
+src/
+docs/
+.github/
+tailwind.config.js
+README.md
+CLAUDE.md
+.env.example

@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Segurança: mesma política do vercel.json, para valer também no GitHub Pages -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://placehold.co; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>[NOME DA LOJA] | Tudo o que você precisa, em um só lugar</title>
   <meta name="description" content="Encontre de tudo, compre em poucos cliques e resolva seu pedido em minutos. Atendimento pelo WhatsApp." />
 
@@ -14,82 +17,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS via CDN (para produção, considere compilar com o Tailwind CLI) -->
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-  <script>
-    /* =========================================================
-       TEMA: cores da marca e fontes em um só lugar.
-       Troque os valores aqui e a página inteira acompanha.
-       ========================================================= */
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              DEFAULT: '#1E55D6', // azul royal: hero, chamada final, ícones, links ativos
-              dark:    '#163FA6', // círculos decorativos, hover, barra do topo
-              light:   '#E8EEFC', // fundo dos círculos de categoria
-            },
-            accent: {
-              DEFAULT: '#FFD60A', // amarelo: botão principal sobre o azul, estrelas
-              dark:    '#F5C400', // hover do botão amarelo
-            },
-            sale:    '#E5262D',   // vermelho: só em selos pequenos
-            ink:     '#111827',   // texto principal
-            muted:   '#5B6270',   // texto secundário
-            surface: '#F1F2F4',   // blocos cinza claro
-            line:    '#E3E5E9',   // bordas finas
-            whatsapp:'#25D366',   // botão flutuante
-          },
-          fontFamily: {
-            display: ['Poppins', 'system-ui', 'sans-serif'],
-            sans:    ['Inter', 'system-ui', 'sans-serif'],
-          },
-          boxShadow: {
-            soft: '0 1px 2px rgba(17,24,39,.04), 0 8px 24px rgba(17,24,39,.06)',
-            lift: '0 2px 4px rgba(17,24,39,.05), 0 16px 40px rgba(17,24,39,.10)',
-          },
-        },
-      },
-    };
-  </script>
-
-  <style>
-    /* Rolagem suave nas âncoras, descontando o cabeçalho fixo */
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-
-    /* Foco visível e consistente em tudo que é clicável */
-    :focus-visible { outline: 3px solid #FFD60A; outline-offset: 3px; border-radius: 8px; }
-    .on-light :focus-visible, .on-light:focus-visible { outline-color: #1E55D6; }
-
-    /* Esconde a barra de rolagem da faixa de categorias no celular */
-    .no-scrollbar { scrollbar-width: none; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-
-    /* ---------- Animações leves (só CSS) ---------- */
-    @keyframes rise   { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    .anim-rise   { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
-    .delay-1 { animation-delay: .08s; } .delay-2 { animation-delay: .16s; } .delay-3 { animation-delay: .24s; }
-    .anim-float  { animation: floaty 6s ease-in-out infinite; }
-
-    /* Revelar seções ao rolar (navegadores com suporte a scroll-driven animations) */
-    @supports (animation-timeline: view()) {
-      .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 40%; }
-    }
-
-    /* Modal do formulário */
-    dialog::backdrop { background: rgba(17,24,39,.55); }
-    dialog[open] { animation: pop .22s cubic-bezier(.2,.7,.2,1); }
-    @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
-
-    /* Respeita quem pediu menos movimento no sistema */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-    }
-  </style>
+  <!-- CSS gerado pelo Tailwind (fonte em src/landing.css; rode "npm run build:css" após mudar classes ou cores) -->
+  <link rel="stylesheet" href="assets/app.css" />
 </head>
 
 <body class="bg-white font-sans text-ink antialiased">
@@ -129,7 +58,7 @@
         </ul>
 
         <div class="flex items-center gap-2">
-          <a data-whatsapp href="#" target="_blank" rel="noopener" class="hidden items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark sm:inline-flex">
+          <a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" class="hidden items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark sm:inline-flex">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
             WhatsApp
           </a>
@@ -149,7 +78,7 @@
           <li><a href="#depoimentos" class="block rounded-lg px-3 py-3 hover:bg-surface">Depoimentos</a></li>
           <li><a href="#contato" class="block rounded-lg px-3 py-3 hover:bg-surface">Contato</a></li>
           <li class="pt-2">
-            <a data-whatsapp href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 font-semibold text-white">WhatsApp</a>
+            <a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 font-semibold text-white">WhatsApp</a>
           </li>
         </ul>
       </div>
@@ -178,7 +107,7 @@
             Encontre de tudo, compre em poucos cliques e resolva seu pedido em minutos. Sem complicação, sem perder tempo procurando em vários sites.
           </p>
           <div class="anim-rise delay-2 mt-8 flex flex-col gap-3 sm:flex-row">
-            <a data-whatsapp href="#" target="_blank" rel="noopener" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-6 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
+            <a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-6 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
               Chamar no WhatsApp
             </a>
@@ -362,7 +291,7 @@
         </h2>
         <p class="mx-auto mt-4 max-w-xl text-lg text-white/90">Fale com a gente agora e encontre o que você procura em poucos minutos.</p>
         <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <a data-whatsapp href="#" target="_blank" rel="noopener" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-7 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
+          <a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[52px] items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-accent px-7 font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-accent-dark">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
             Chamar no WhatsApp
           </a>
@@ -404,7 +333,7 @@
         <h2 class="font-display text-sm font-semibold uppercase tracking-wide">Contato</h2>
         <!-- Troque pelos contatos reais da loja -->
         <ul class="mt-4 space-y-2.5 text-sm text-muted">
-          <li><a data-whatsapp href="#" target="_blank" rel="noopener" class="hover:text-brand">WhatsApp: (11) 95530-9218</a></li>
+          <li><a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" class="hover:text-brand">WhatsApp: (11) 95530-9218</a></li>
           <li><a href="mailto:contato@suamarca.com.br" class="hover:text-brand">contato@suamarca.com.br</a></li>
           <li>Seg. a sáb., das 8h às 20h</li>
         </ul>
@@ -431,16 +360,15 @@
   <!-- =========================================================
        BOTÃO FLUTUANTE DE WHATSAPP
        ========================================================= -->
-  <a data-whatsapp href="#" target="_blank" rel="noopener" aria-label="Chamar no WhatsApp"
+  <a data-whatsapp href="#" target="_blank" rel="noopener noreferrer" aria-label="Chamar no WhatsApp"
      class="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-lift transition hover:scale-105 focus-visible:outline-brand">
     <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-4.95A9 9 0 1 1 8 19.6z"/><path d="M9 9.5a5.5 5.5 0 0 0 5.5 5.5l1.2-1.2-1.7-1-.8.8a4.4 4.4 0 0 1-2.4-2.4l.8-.8-1-1.7z"/></svg>
   </a>
 
   <!-- =========================================================
        FORMULÁRIO (modal)
-       Sem back-end: hoje ele só mostra a mensagem de sucesso.
-       Para receber os dados, ligue o form a um serviço (ex.: Formspree,
-       Google Forms, RD Station) no "action" ou no JavaScript abaixo.
+       Envia para /api/contato (função da Vercel em api/contato.js),
+       que valida os dados e salva no Supabase.
        ========================================================= -->
   <dialog id="formDialog" aria-labelledby="titulo-form" class="on-light w-[calc(100%-2rem)] max-w-md rounded-xl border border-line p-0 text-ink shadow-lift">
     <div class="p-6 sm:p-7">
@@ -451,22 +379,28 @@
         </button>
       </div>
 
-      <form id="leadForm" class="mt-5 space-y-4" novalidate>
+      <form id="leadForm" class="relative mt-5 space-y-4" novalidate>
         <div>
           <label for="nome" class="mb-1.5 block text-sm font-medium">Nome <span class="text-sale" aria-hidden="true">*</span></label>
-          <input id="nome" name="nome" type="text" autocomplete="name" required class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
+          <input id="nome" name="nome" type="text" autocomplete="name" required minlength="2" maxlength="100" class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
           <p class="field-error mt-1 hidden text-sm text-sale" role="alert">Informe seu nome.</p>
         </div>
         <div>
           <label for="contato-campo" class="mb-1.5 block text-sm font-medium">WhatsApp ou e-mail <span class="text-sale" aria-hidden="true">*</span></label>
-          <input id="contato-campo" name="contato" type="text" autocomplete="email" inputmode="email" required class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
+          <input id="contato-campo" name="contato" type="text" autocomplete="email" inputmode="email" required maxlength="120" class="block min-h-[48px] w-full rounded-lg border border-line px-3.5 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30" />
           <p class="field-error mt-1 hidden text-sm text-sale" role="alert">Informe um WhatsApp ou e-mail para a gente responder.</p>
         </div>
         <div>
           <label for="procura" class="mb-1.5 block text-sm font-medium">O que você está procurando?</label>
-          <textarea id="procura" name="procura" rows="3" class="block w-full rounded-lg border border-line px-3.5 py-3 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"></textarea>
+          <textarea id="procura" name="procura" rows="3" maxlength="1000" class="block w-full rounded-lg border border-line px-3.5 py-3 text-base focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"></textarea>
         </div>
-        <button type="submit" class="min-h-[52px] w-full rounded-xl bg-brand font-semibold text-white transition hover:bg-brand-dark">Enviar</button>
+        <!-- Campo-isca anti-robô: escondido de pessoas e leitores de tela -->
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="empresa">Empresa</label>
+          <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <p id="formError" class="hidden rounded-lg bg-sale/10 px-3.5 py-3 text-sm text-ink" role="alert"></p>
+        <button id="leadSubmit" type="submit" class="min-h-[52px] w-full rounded-xl bg-brand font-semibold text-white transition hover:bg-brand-dark">Enviar</button>
         <p class="text-center text-sm text-muted">Resposta rápida. Sem compromisso.</p>
       </form>
 
@@ -481,83 +415,6 @@
     </div>
   </dialog>
 
-  <script>
-    /* =========================================================
-       CONFIGURAÇÃO: troque o link do WhatsApp SÓ AQUI.
-       Formato: https://wa.me/55DDDNUMERO (ex.: https://wa.me/5541999999999)
-       Dá para incluir uma mensagem pronta: ?text=Olá!%20Vim%20pelo%20site
-       ========================================================= */
-    const WHATSAPP_LINK = 'https://wa.me/5511955309218?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es';
-
-    document.querySelectorAll('[data-whatsapp]').forEach((a) => (a.href = WHATSAPP_LINK));
-    document.getElementById('ano').textContent = new Date().getFullYear();
-
-    /* ---------- Menu hambúrguer ---------- */
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    function setMenu(open) {
-      mobileMenu.classList.toggle('hidden', !open);
-      menuBtn.setAttribute('aria-expanded', String(open));
-      menuBtn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-      document.getElementById('iconOpen').classList.toggle('hidden', open);
-      document.getElementById('iconClose').classList.toggle('hidden', !open);
-    }
-    menuBtn.addEventListener('click', () => setMenu(mobileMenu.classList.contains('hidden')));
-    // Fecha o menu ao tocar em um link
-    mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
-
-    /* ---------- Rolagem suave nas âncoras ----------
-       O CSS (scroll-behavior) já faz a maior parte; aqui garantimos o mesmo
-       comportamento em navegadores antigos e respeitamos "reduzir movimento". */
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const id = link.getAttribute('href');
-        if (id.length < 2) return;
-        const target = document.querySelector(id);
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
-        history.replaceState(null, '', id);
-      });
-    });
-
-    /* ---------- Formulário (abrir e fechar) ---------- */
-    const dialog = document.getElementById('formDialog');
-    const form = document.getElementById('leadForm');
-    const success = document.getElementById('formSuccess');
-
-    document.querySelectorAll('[data-open-form]').forEach((btn) =>
-      btn.addEventListener('click', () => {
-        form.classList.remove('hidden');
-        success.classList.add('hidden');
-        dialog.showModal(); // já prende o foco e fecha com Esc
-      })
-    );
-    dialog.querySelectorAll('[data-close-form]').forEach((btn) => btn.addEventListener('click', () => dialog.close()));
-    // Fecha ao clicar fora do card
-    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      let firstInvalid = null;
-      form.querySelectorAll('[required]').forEach((input) => {
-        const error = input.parentElement.querySelector('.field-error');
-        const invalid = !input.value.trim();
-        error.classList.toggle('hidden', !invalid);
-        input.setAttribute('aria-invalid', String(invalid));
-        input.classList.toggle('border-sale', invalid);
-        if (invalid && !firstInvalid) firstInvalid = input;
-      });
-      if (firstInvalid) { firstInvalid.focus(); return; }
-
-      // AQUI: envie os dados para o seu serviço (fetch para Formspree, planilha etc.)
-      // const dados = Object.fromEntries(new FormData(form));
-
-      form.reset();
-      form.classList.add('hidden');
-      success.classList.remove('hidden');
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

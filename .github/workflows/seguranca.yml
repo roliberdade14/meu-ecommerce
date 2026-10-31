@@ -1,0 +1,46 @@
+name: Testes e segurança
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # o gitleaks examina todo o histórico
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Testes da API
+        run: npm test
+
+      - name: Auditoria de dependências
+        run: npm audit --audit-level=high
+
+      - name: CSS compilado está atualizado
+        run: |
+          npm run build:css
+          git diff --exit-code -- landing/assets/app.css || (echo "Rode 'npm run build:css' e commite landing/assets/app.css" && exit 1)
+
+      - name: Nada de script inline nem handlers inline no HTML
+        run: |
+          if grep -nE '<script>|<script [^>]*>[^<]+</script>| on[a-z]+="' --include=*.html -r . --exclude-dir=node_modules; then
+            echo "Encontrado script inline (bloqueado pela CSP). Mova para um arquivo .js." && exit 1
+          fi
+
+      - name: Procurar segredos (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
